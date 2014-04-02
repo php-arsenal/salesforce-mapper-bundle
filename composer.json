@@ -1,0 +1,27 @@
+{
+    "name": "logicitlab/salesforce-mapper-bundle",
+    "type": "symfony-bundle",
+    "description": "A Salesforce API mapper",
+    "keywords": [ "salesforce", "soap", "web service" ],
+    "homepage": "https://github.com/LogicItLab/LogicItLabSalesforceMapperBundle/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Logic It Lab",
+            "email": "team@LogicItLab.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "phpforce/salesforce-bundle": "dev-master",
+        "doctrine/common": "*"
+    },
+    "suggest": {
+        "sensio/framework-extra-bundle": "For the param converter"
+    },
+    "autoload": {
+        "psr-0": { "LogicItLab\\Salesforce\\MapperBundle": "" }
+    },
+    "target-dir": "LogicItLab/Salesforce/MapperBundle",
+    "minimum-stability": "dev"
+}
