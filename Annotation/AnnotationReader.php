@@ -1,6 +1,6 @@
 <?php
 
-namespace LogicItlab\Salesforce\MapperBundle\Annotation;
+namespace LogicItLab\Salesforce\MapperBundle\Annotation;
 
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Collections\ArrayCollection;
