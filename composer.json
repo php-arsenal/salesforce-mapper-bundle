@@ -1,5 +1,5 @@
 {
-    "name": "logicitlab/salesforce-mapper-bundle",
+    "name": "comsavewebservice/salesforce-mapper-bundle",
     "type": "symfony-bundle",
     "description": "A Salesforce API mapper",
     "keywords": [ "salesforce", "soap", "web service" ],
@@ -7,8 +7,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Logic It Lab",
-            "email": "team@LogicItLab.com"
+            "name": "Comsave webservice",
+            "email": "joeri.veder@comsave.nl"
         }
     ],
     "require": {
