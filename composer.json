@@ -11,9 +11,13 @@
             "email": "joeri.veder@comsave.nl"
         }
     ],
+    "repositories": [{
+        "type": "vcs",
+        "url": "git@bitbucket.org:comsavewebservice/salesforce-bundle.git"
+    }],
     "require": {
         "php": ">=5.3.2",
-        "phpforce/salesforce-bundle": "dev-master",
+        "comsavewebservice/salesforce-bundle": "dev-master",
         "doctrine/common": "*"
     },
     "suggest": {
