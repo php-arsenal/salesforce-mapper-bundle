@@ -655,7 +655,7 @@ class Mapper
      *                              fields should not be returned
      * @return array
      */
-    private function getFields($modelClass, $includeRelatedLevels, $ignoreObject = null)
+    public function getFields($modelClass, $includeRelatedLevels, $ignoreObject = null)
     {
         $fields = array();
 
