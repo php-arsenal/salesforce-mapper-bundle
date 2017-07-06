@@ -77,6 +77,8 @@ class Mapper
         $this->unitOfWork = new UnitOfWork($this, $this->annotationReader);
     }
 
+
+
     /**
      * Get event dispatcher
      *
@@ -754,5 +756,13 @@ class Mapper
     public function getUnitOfWork()
     {
         return $this->unitOfWork;
+    }
+
+    /**
+     * @return ClientInterface
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }
