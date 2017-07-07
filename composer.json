@@ -23,5 +23,6 @@
         "psr-0": { "LogicItLab\\Salesforce\\MapperBundle": "" }
     },
     "target-dir": "LogicItLab/Salesforce/MapperBundle",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
