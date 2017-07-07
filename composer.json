@@ -11,10 +11,6 @@
             "email": "joeri.veder@comsave.nl"
         }
     ],
-    "repositories": [{
-        "type": "vcs",
-        "url": "git@bitbucket.org:comsavewebservice/salesforce-bundle.git"
-    }],
     "require": {
         "php": ">=5.3.2",
         "comsavewebservice/salesforce-bundle": "dev-master",
@@ -26,6 +22,5 @@
     "autoload": {
         "psr-0": { "LogicItLab\\Salesforce\\MapperBundle": "" }
     },
-    "target-dir": "LogicItLab/Salesforce/MapperBundle",
-    "minimum-stability": "dev"
+    "target-dir": "LogicItLab/Salesforce/MapperBundle"
 }
