@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f96691a1c0626db3c5e3342faf81c08",
+    "content-hash": "d1aa472ada3e9f853f16502b4a333e9b",
     "packages": [
+        {
+            "name": "comsave/salesforce-bundle",
+            "version": "0.1.0",
+            "target-dir": "Phpforce/SalesforceBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/comsave/salesforce-bundle.git",
+                "reference": "6a21c98a558f404287e55f0aa2d7f9e1339cdb52"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/comsave/salesforce-bundle/zipball/6a21c98a558f404287e55f0aa2d7f9e1339cdb52",
+                "reference": "6a21c98a558f404287e55f0aa2d7f9e1339cdb52",
+                "shasum": ""
+            },
+            "require": {
+                "comsave/soap-client": "0.1.1",
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "guzzle/http": "For fetching the latest WSDL from Salesforce"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Phpforce\\SalesforceBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl",
+                    "homepage": "http://ddeboer.nl"
+                }
+            ],
+            "description": "A Symfony2 bundle for the PHPForce Salesforce library",
+            "homepage": "https://github.com/phpforce/salesforce-bundle",
+            "keywords": [
+                "crm",
+                "salesforce",
+                "soap"
+            ],
+            "time": "2017-07-10T08:15:56+00:00"
+        },
         {
             "name": "comsave/soap-client",
             "version": "0.1.1",
@@ -58,54 +106,6 @@
                 "web services"
             ],
             "time": "2017-07-07T09:57:30+00:00"
-        },
-        {
-            "name": "comsavewebservice/salesforce-bundle",
-            "version": "0.1.0",
-            "target-dir": "Phpforce/SalesforceBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/comsave/salesforce-bundle.git",
-                "reference": "6a21c98a558f404287e55f0aa2d7f9e1339cdb52"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/comsave/salesforce-bundle/zipball/6a21c98a558f404287e55f0aa2d7f9e1339cdb52",
-                "reference": "6a21c98a558f404287e55f0aa2d7f9e1339cdb52",
-                "shasum": ""
-            },
-            "require": {
-                "comsave/soap-client": "0.1.1",
-                "php": ">=5.3.0"
-            },
-            "suggest": {
-                "guzzle/http": "For fetching the latest WSDL from Salesforce"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Phpforce\\SalesforceBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David de Boer",
-                    "email": "david@ddeboer.nl",
-                    "homepage": "http://ddeboer.nl"
-                }
-            ],
-            "description": "A Symfony2 bundle for the PHPForce Salesforce library",
-            "homepage": "https://github.com/phpforce/salesforce-bundle",
-            "keywords": [
-                "crm",
-                "salesforce",
-                "soap"
-            ],
-            "time": "2017-07-10T08:15:56+00:00"
         },
         {
             "name": "doctrine/annotations",
