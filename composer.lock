@@ -13,7 +13,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:comsavewebservice/salesforce-bundle.git",
-                "reference": "f43befd3c661e915e6bc18313b074c0ed9c98ca3"
+                "reference": "d6ef6668862a698232561eb2a7def23a65f4976c"
             },
             "require": {
                 "php": ">=5.3.0",
@@ -38,27 +38,27 @@
                     "homepage": "http://ddeboer.nl"
                 }
             ],
-            "description": "A Symfony2 bundle for the PHPForce Salesforce library",
+            "description": "A Symfony2 bundle for the PHPForce Salesforce library.",
             "homepage": "https://github.com/phpforce/salesforce-bundle",
             "keywords": [
                 "crm",
                 "salesforce",
                 "soap"
             ],
-            "time": "2017-01-05 12:19:45"
+            "time": "2017-07-10 11:38:50"
         },
         {
             "name": "doctrine/annotations",
-            "version": "dev-master",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "b544ea1f2f2e1af294dbd516d4ddecd3db3d7e33"
+                "reference": "54cacc9b81758b14e3ce750f205a393d52339e97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/b544ea1f2f2e1af294dbd516d4ddecd3db3d7e33",
-                "reference": "b544ea1f2f2e1af294dbd516d4ddecd3db3d7e33",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/54cacc9b81758b14e3ce750f205a393d52339e97",
+                "reference": "54cacc9b81758b14e3ce750f205a393d52339e97",
                 "shasum": ""
             },
             "require": {
@@ -113,36 +113,37 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2017-01-02 20:02:20"
+            "time": "2017-02-24T16:22:25+00:00"
         },
         {
             "name": "doctrine/cache",
-            "version": "dev-master",
+            "version": "1.6.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "e14f7e04cf7106fed6061b42aeeb56df556db49d"
+                "reference": "b6f544a20f4807e81f7044d31e679ccbb1866dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/e14f7e04cf7106fed6061b42aeeb56df556db49d",
-                "reference": "e14f7e04cf7106fed6061b42aeeb56df556db49d",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/b6f544a20f4807e81f7044d31e679ccbb1866dc3",
+                "reference": "b6f544a20f4807e81f7044d31e679ccbb1866dc3",
                 "shasum": ""
             },
             "require": {
-                "php": "~5.6|~7.0"
+                "php": "~5.5|~7.0"
             },
             "conflict": {
                 "doctrine/common": ">2.2,<2.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.6.2",
-                "predis/predis": "~1.0"
+                "phpunit/phpunit": "~4.8|~5.0",
+                "predis/predis": "~1.0",
+                "satooshi/php-coveralls": "~0.6"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -182,11 +183,11 @@
                 "cache",
                 "caching"
             ],
-            "time": "2016-12-17 21:41:50"
+            "time": "2016-10-29 11:16:17"
         },
         {
             "name": "doctrine/collections",
-            "version": "dev-master",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
@@ -249,20 +250,20 @@
                 "collections",
                 "iterator"
             ],
-            "time": "2017-01-03 10:49:41"
+            "time": "2017-01-03T10:49:41+00:00"
         },
         {
             "name": "doctrine/common",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "eb70a7b0d691b9e948a273659852ec39d56aea48"
+                "reference": "562b53a30df76e7aab3bd04b4d57daafcb801e1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/eb70a7b0d691b9e948a273659852ec39d56aea48",
-                "reference": "eb70a7b0d691b9e948a273659852ec39d56aea48",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/562b53a30df76e7aab3bd04b4d57daafcb801e1f",
+                "reference": "562b53a30df76e7aab3bd04b4d57daafcb801e1f",
                 "shasum": ""
             },
             "require": {
@@ -274,7 +275,7 @@
                 "php": "~5.6|~7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^5.4.6"
             },
             "type": "library",
             "extra": {
@@ -322,20 +323,20 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2017-01-02 18:52:37"
+            "time": "2017-02-01 16:00:57"
         },
         {
             "name": "doctrine/inflector",
-            "version": "dev-master",
+            "version": "1.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "803a2ed9fea02f9ca47cd45395089fe78769a392"
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/803a2ed9fea02f9ca47cd45395089fe78769a392",
-                "reference": "803a2ed9fea02f9ca47cd45395089fe78769a392",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/90b2128806bfde671b6952ab8bea493942c1fdae",
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae",
                 "shasum": ""
             },
             "require": {
@@ -389,7 +390,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2016-05-12 17:23:41"
+            "time": "2015-11-06 14:35:42"
         },
         {
             "name": "doctrine/lexer",
@@ -592,27 +593,30 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "dev-master",
+            "version": "3.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "7c8c527ef815616bc48eaf3261c03606dc62aaab"
+                "reference": "db08b1b2f9adb5d59a5e838d1577e73c418e05ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/7c8c527ef815616bc48eaf3261c03606dc62aaab",
-                "reference": "7c8c527ef815616bc48eaf3261c03606dc62aaab",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/db08b1b2f9adb5d59a5e838d1577e73c418e05ed",
+                "reference": "db08b1b2f9adb5d59a5e838d1577e73c418e05ed",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.9"
             },
+            "conflict": {
+                "symfony/dependency-injection": "<3.3"
+            },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.8|~3.0",
-                "symfony/dependency-injection": "~2.8|~3.0",
-                "symfony/expression-language": "~2.8|~3.0",
-                "symfony/stopwatch": "~2.8|~3.0"
+                "symfony/config": "~2.8|~3.0|~4.0",
+                "symfony/dependency-injection": "~3.3|~4.0",
+                "symfony/expression-language": "~2.8|~3.0|~4.0",
+                "symfony/stopwatch": "~2.8|~3.0|~4.0"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -621,7 +625,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -648,7 +652,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-02 20:33:09"
+            "time": "2017-06-12 16:03:21"
         }
     ],
     "packages-dev": [],
