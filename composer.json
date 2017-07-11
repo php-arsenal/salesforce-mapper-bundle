@@ -1,5 +1,5 @@
 {
-    "name": "comsavewebservice/salesforce-mapper-bundle",
+    "name": "comsave/salesforce-mapper-bundle",
     "type": "symfony-bundle",
     "description": "A Salesforce API mapper",
     "keywords": [ "salesforce", "soap", "web service" ],
@@ -11,14 +11,10 @@
             "email": "joeri.veder@comsave.nl"
         }
     ],
-    "repositories": [{
-        "type": "vcs",
-        "url": "git@bitbucket.org:comsavewebservice/salesforce-bundle.git"
-    }],
     "require": {
         "php": ">=5.3.2",
-        "comsavewebservice/salesforce-bundle": "dev-master",
-        "doctrine/common": "*"
+        "comsave/salesforce-bundle": "^0.1.1",
+        "doctrine/common": "^2.7.2"
     },
     "suggest": {
         "sensio/framework-extra-bundle": "For the param converter"
@@ -27,5 +23,6 @@
         "psr-0": { "LogicItLab\\Salesforce\\MapperBundle": "" }
     },
     "target-dir": "LogicItLab/Salesforce/MapperBundle",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

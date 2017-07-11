@@ -4,20 +4,71 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe083587e1388bc72cc7fadd9151417c",
+    "content-hash": "7ff9ac568fda63b16332cad90c0ce278",
     "packages": [
         {
-            "name": "comsavewebservice/salesforce-bundle",
-            "version": "dev-master",
-            "target-dir": "Phpforce/SalesforceBundle",
+            "name": "comsave/common",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
-                "url": "git@bitbucket.org:comsavewebservice/salesforce-bundle.git",
-                "reference": "d6ef6668862a698232561eb2a7def23a65f4976c"
+                "url": "https://github.com/comsave/common.git",
+                "reference": "13fc40208174f9560b1558bf595eacb64adbbdae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/comsave/common/zipball/13fc40208174f9560b1558bf595eacb64adbbdae",
+                "reference": "13fc40208174f9560b1558bf595eacb64adbbdae",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "phpforce/soap-client": "*"
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Phpforce\\Common": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl",
+                    "homepage": "http://ddeboer.nl"
+                }
+            ],
+            "description": "Common library for the PhpForce Salesforce libraries",
+            "keywords": [
+                "crm",
+                "force.com",
+                "salesforce",
+                "soap",
+                "web services"
+            ],
+            "time": "2017-07-10T08:41:56+00:00"
+        },
+        {
+            "name": "comsave/salesforce-bundle",
+            "version": "0.1.3",
+            "target-dir": "Phpforce/SalesforceBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/comsave/salesforce-bundle.git",
+                "reference": "e2afb9954934761cb1faf1039d6f487f77bcde28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/comsave/salesforce-bundle/zipball/e2afb9954934761cb1faf1039d6f487f77bcde28",
+                "reference": "e2afb9954934761cb1faf1039d6f487f77bcde28",
+                "shasum": ""
+            },
+            "require": {
+                "comsave/soap-client": "~0.1.0",
+                "php": ">=5.3.0"
             },
             "suggest": {
                 "guzzle/http": "For fetching the latest WSDL from Salesforce"
@@ -28,6 +79,7 @@
                     "Phpforce\\SalesforceBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -45,7 +97,60 @@
                 "salesforce",
                 "soap"
             ],
-            "time": "2017-07-10 11:38:50"
+            "time": "2017-07-11T09:25:53+00:00"
+        },
+        {
+            "name": "comsave/soap-client",
+            "version": "0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/comsave/soap-client.git",
+                "reference": "94dbe2e59fde563fb3fbadfd0cd203f31ec63575"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/comsave/soap-client/zipball/94dbe2e59fde563fb3fbadfd0cd203f31ec63575",
+                "reference": "94dbe2e59fde563fb3fbadfd0cd203f31ec63575",
+                "shasum": ""
+            },
+            "require": {
+                "comsave/common": "~0.1.0",
+                "php": ">=5.3.0",
+                "psr/log": "~1.0.0"
+            },
+            "require-dev": {
+                "doctrine/common": "~2.3"
+            },
+            "suggest": {
+                "doctrine/common": "For caching SOAP responses",
+                "monolog/monolog": "For logging SOAP transactions"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Phpforce\\SoapClient": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl",
+                    "homepage": "http://ddeboer.nl"
+                }
+            ],
+            "description": "A PHP client for the Salesforce SOAP API",
+            "keywords": [
+                "crm",
+                "force.com",
+                "salesforce",
+                "soap",
+                "web services"
+            ],
+            "time": "2017-07-11T09:21:30+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -117,7 +222,7 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.6.x-dev",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
@@ -183,7 +288,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2016-10-29 11:16:17"
+            "time": "2016-10-29T11:16:17+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -254,16 +359,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "2.7.x-dev",
+            "version": "v2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "562b53a30df76e7aab3bd04b4d57daafcb801e1f"
+                "reference": "930297026c8009a567ac051fd545bf6124150347"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/562b53a30df76e7aab3bd04b4d57daafcb801e1f",
-                "reference": "562b53a30df76e7aab3bd04b4d57daafcb801e1f",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/930297026c8009a567ac051fd545bf6124150347",
+                "reference": "930297026c8009a567ac051fd545bf6124150347",
                 "shasum": ""
             },
             "require": {
@@ -323,11 +428,11 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2017-02-01 16:00:57"
+            "time": "2017-01-13T14:02:13+00:00"
         },
         {
             "name": "doctrine/inflector",
-            "version": "1.1.x-dev",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
@@ -390,11 +495,11 @@
                 "singularize",
                 "string"
             ],
-            "time": "2015-11-06 14:35:42"
+            "time": "2015-11-06T14:35:42+00:00"
         },
         {
             "name": "doctrine/lexer",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
@@ -444,109 +549,11 @@
                 "lexer",
                 "parser"
             ],
-            "time": "2014-09-09 13:34:57"
-        },
-        {
-            "name": "phpforce/common",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpforce/common.git",
-                "reference": "aa96dfb6b0f43024c95a9d9c88396013e7513f9c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpforce/common/zipball/aa96dfb6b0f43024c95a9d9c88396013e7513f9c",
-                "reference": "aa96dfb6b0f43024c95a9d9c88396013e7513f9c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "symfony/event-dispatcher": ">=2.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Phpforce\\Common": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David de Boer",
-                    "email": "david@ddeboer.nl",
-                    "homepage": "http://ddeboer.nl"
-                }
-            ],
-            "description": "Common library for the PhpForce Salesforce libraries",
-            "keywords": [
-                "crm",
-                "force.com",
-                "salesforce",
-                "soap",
-                "web services"
-            ],
-            "time": "2014-01-09 10:36:21"
-        },
-        {
-            "name": "phpforce/soap-client",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpforce/soap-client.git",
-                "reference": "df1d06533d28b34bf7e1a8eb4c6b43316ea25b56"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpforce/soap-client/zipball/df1d06533d28b34bf7e1a8eb4c6b43316ea25b56",
-                "reference": "df1d06533d28b34bf7e1a8eb4c6b43316ea25b56",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "phpforce/common": "dev-master",
-                "psr/log": "*"
-            },
-            "require-dev": {
-                "doctrine/common": ">=2.3"
-            },
-            "suggest": {
-                "doctrine/common": "For caching SOAP responses",
-                "monolog/monolog": "For logging SOAP transactions"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Phpforce\\SoapClient": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David de Boer",
-                    "email": "david@ddeboer.nl",
-                    "homepage": "http://ddeboer.nl"
-                }
-            ],
-            "description": "A PHP client for the Salesforce SOAP API",
-            "keywords": [
-                "crm",
-                "force.com",
-                "salesforce",
-                "soap",
-                "web services"
-            ],
-            "time": "2015-04-05 18:17:07"
+            "time": "2014-09-09T13:34:57+00:00"
         },
         {
             "name": "psr/log",
-            "version": "dev-master",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
@@ -589,34 +596,31 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "3.4.x-dev",
+            "version": "v2.8.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "db08b1b2f9adb5d59a5e838d1577e73c418e05ed"
+                "reference": "1377400fd641d7d1935981546aaef780ecd5bf6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/db08b1b2f9adb5d59a5e838d1577e73c418e05ed",
-                "reference": "db08b1b2f9adb5d59a5e838d1577e73c418e05ed",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/1377400fd641d7d1935981546aaef780ecd5bf6d",
+                "reference": "1377400fd641d7d1935981546aaef780ecd5bf6d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.8|~3.0|~4.0",
-                "symfony/dependency-injection": "~3.3|~4.0",
-                "symfony/expression-language": "~2.8|~3.0|~4.0",
-                "symfony/stopwatch": "~2.8|~3.0|~4.0"
+                "symfony/config": "^2.0.5|~3.0.0",
+                "symfony/dependency-injection": "~2.6|~3.0.0",
+                "symfony/expression-language": "~2.6|~3.0.0",
+                "symfony/stopwatch": "~2.3|~3.0.0"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -625,7 +629,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
@@ -652,16 +656,14 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-12 16:03:21"
+            "time": "2017-06-02T07:47:27+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "comsavewebservice/salesforce-bundle": 20
-    },
-    "prefer-stable": false,
+    "stability-flags": [],
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.2"
