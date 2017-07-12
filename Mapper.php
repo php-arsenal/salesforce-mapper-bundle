@@ -300,11 +300,11 @@ class Mapper
                 $reflProperty->setValue($model, $newId);
             }
 
-            $results[] = $saveResults;
+            $results['created'] = $saveResults;
         }
 
         foreach ($objectsToBeUpdated as $objectName => $sObjects) {
-            $results[] = $this->client->update($sObjects, $objectName);
+            $results['updated'] = $this->client->update($sObjects, $objectName);
         }
 
         return $results;
