@@ -379,7 +379,10 @@ class Contact extends AbstractModel
         return $this->account;
     }
 
-    public function setAccount(Account $account)
+    /**
+     * @param Account $account
+     */
+    public function setAccount($account)
     {
         $this->account = $account;
         $this->accountId = $account->getId();
