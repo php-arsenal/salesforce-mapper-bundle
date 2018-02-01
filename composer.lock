@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ff9ac568fda63b16332cad90c0ce278",
+    "content-hash": "1bd6e6666b169dfb86be48c27ff52050",
     "packages": [
         {
             "name": "comsave/common",
@@ -53,17 +53,17 @@
         },
         {
             "name": "comsave/salesforce-bundle",
-            "version": "0.1.3",
+            "version": "3.0.0",
             "target-dir": "Phpforce/SalesforceBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/comsave/salesforce-bundle.git",
-                "reference": "e2afb9954934761cb1faf1039d6f487f77bcde28"
+                "reference": "396869a7dfb02cb481fe605fb559f4ab0be60e6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/comsave/salesforce-bundle/zipball/e2afb9954934761cb1faf1039d6f487f77bcde28",
-                "reference": "e2afb9954934761cb1faf1039d6f487f77bcde28",
+                "url": "https://api.github.com/repos/comsave/salesforce-bundle/zipball/396869a7dfb02cb481fe605fb559f4ab0be60e6b",
+                "reference": "396869a7dfb02cb481fe605fb559f4ab0be60e6b",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "salesforce",
                 "soap"
             ],
-            "time": "2017-07-11T09:25:53+00:00"
+            "time": "2018-02-01T14:23:29+00:00"
         },
         {
             "name": "comsave/soap-client",
