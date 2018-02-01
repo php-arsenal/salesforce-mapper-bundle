@@ -54,7 +54,7 @@ class AnnotationReader
      * Get Salesforce object annotation
      * 
      * @param string $model
-     * @return Object
+     * @return SObject
      */
     public function getSalesforceObject($model)
     {
@@ -83,7 +83,7 @@ class AnnotationReader
         );
 
         $classAnnotation = $this->reader->getClassAnnotation($reflClass, 
-            'LogicItLab\Salesforce\MapperBundle\Annotation\Object'
+            'LogicItLab\Salesforce\MapperBundle\Annotation\SObject'
         );
         if (isset($classAnnotation->name)) {
             $salesforceProperties['object'] = $classAnnotation;

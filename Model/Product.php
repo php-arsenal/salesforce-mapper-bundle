@@ -7,7 +7,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 /**
  * Salesforce standard task object
  *
- * @Salesforce\Object(name="Product2")
+ * @Salesforce\SObject(name="Product2")
  */
 class Product extends AbstractModel
 {

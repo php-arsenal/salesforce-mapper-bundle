@@ -7,7 +7,7 @@ use Doctrine\Common\Annotations\Annotation;
 /**
  * @Annotation
  */
-class Object extends Annotation
+class SObject extends Annotation
 {
     public $name;
 }

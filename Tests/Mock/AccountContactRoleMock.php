@@ -5,7 +5,7 @@ namespace LogicItLab\Salesforce\MapperBundle\Tests\Mock;
 use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 
 /**
- * @Salesforce\Object(name="AccountContactRole")
+ * @Salesforce\SObject(name="AccountContactRole")
  */
 class AccountContactRoleMock
 {

@@ -7,7 +7,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 /**
  * Salesforce standard record type object
  *
- * @Salesforce\Object(name="RecordType")
+ * @Salesforce\SObject(name="RecordType")
  */
 class RecordType extends AbstractModel
 {

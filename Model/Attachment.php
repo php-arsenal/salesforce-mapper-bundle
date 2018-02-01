@@ -7,7 +7,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 /**
  * An attachment in Salesforce
  * 
- * @Salesforce\Object(name="Attachment")
+ * @Salesforce\SObject(name="Attachment")
  */
 class Attachment extends AbstractModel
 {   

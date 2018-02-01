@@ -6,7 +6,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 /**
  * A campaign member
  *
- * @Salesforce\Object(name="CampaignMember")
+ * @Salesforce\SObject(name="CampaignMember")
  */
 class CampaignMember extends AbstractModel
 {
