@@ -7,7 +7,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 /**
  * Opportunity contact role
  *
- * @Salesforce\Object(name="OpportunityContactRole")
+ * @Salesforce\SObject(name="OpportunityContactRole")
  */
 class OpportunityContactRole extends AbstractModel
 {

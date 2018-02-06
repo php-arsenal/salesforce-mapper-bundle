@@ -7,7 +7,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 /**
  * Salesforce user object
  *
- * @Salesforce\Object(name="User")
+ * @Salesforce\SObject(name="User")
  */
 class User extends AbstractModel
 {

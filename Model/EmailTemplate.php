@@ -10,7 +10,7 @@ use LogicItLab\Salesforce\MapperBundle\Response\MappedRecordIterator;
  *
  * You can extend this class to incorporate custom fields on the object.
  *
- * @Salesforce\Object(name="EmailTemplate")
+ * @Salesforce\SObject(name="EmailTemplate")
  */
 class EmailTemplate extends AbstractModel
 {

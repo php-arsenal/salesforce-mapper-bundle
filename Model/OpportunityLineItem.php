@@ -7,7 +7,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 /**
  * OpportunityLineItem proxy object
  * 
- * @Salesforce\Object(name="OpportunityLineItem")
+ * @Salesforce\SObject(name="OpportunityLineItem")
  */
 class OpportunityLineItem extends AbstractModel
 {

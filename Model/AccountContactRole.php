@@ -9,7 +9,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
  *
  * You can extend this class to incorporate custom fields on the object.
  *
- * @Salesforce\Object(name="AccountContactRole")
+ * @Salesforce\SObject(name="AccountContactRole")
  */
 class AccountContactRole extends AbstractModel
 {

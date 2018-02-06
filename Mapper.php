@@ -24,7 +24,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * extend the standard objects, add the properties and annotate them
  * (using @Salesforce\Field annotations). If you want this mapper to accept
  * completely custom objects, you can extend from Model/AbstractModel, and add
- * a @Salesforce\Object annotation.
+ * a @Salesforce\SObject annotation.
  *
  * @author Logic It Lab <team@logicitlab.com>
  */

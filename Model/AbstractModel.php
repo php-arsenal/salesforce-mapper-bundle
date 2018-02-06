@@ -12,7 +12,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 abstract class AbstractModel
 {
     /**
-     * Object ID
+     * SObject ID
      *
      * @var string
      * @Salesforce\Field(name="Id")
