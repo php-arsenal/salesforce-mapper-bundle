@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "add293cb000af4996a2a86c00e245560",
+    "content-hash": "51ed538384f197862f3734adb0e4486e",
     "packages": [
         {
             "name": "comsave/common",
