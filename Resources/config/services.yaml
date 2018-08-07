@@ -30,8 +30,3 @@ services:
             - '@phpforce.soap_client.bulk_saver'
             - '@LogicItLab\Salesforce\MapperBundle\Mapper'
             - '@LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader'
-#
-#    LogicItLab\Salesforce\MapperBundle\Request\ParamConverter\SalesforceParamConverter:
-#        arguments:
-#            - '@LogicItLab\Salesforce\MapperBundle\Mapper'
-#            - '%logicitlab_salesforce_mapper.param_converter%'

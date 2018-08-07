@@ -38,10 +38,8 @@ class LogicItLabSalesforceMapperExtension extends Extension
             }
         }
 
-        if (isset($config['param_converter'])) {
-            $loader->load('param_converter.xml');
-            $container->setParameter('logicitlab_salesforce_mapper.param_converter', $config['param_converter']);
-        }
+        $yamlLoader->load('param_converter.yml');
+        $container->setParameter('logicitlab_salesforce_mapper.param_converter', $config['param_converter']);
     }
 }
 
