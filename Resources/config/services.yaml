@@ -9,7 +9,7 @@ services:
 
     LogicItLab\Salesforce\MapperBundle\:
         resource: '../../*'
-        exclude: '../../{Tests}', '../../Request/ParamConverter/SalesforceParamConverter.php'
+        exclude: '../../{Tests}'
 
     LogicItLab\Salesforce\MapperBundle\Mapper:
         arguments:
