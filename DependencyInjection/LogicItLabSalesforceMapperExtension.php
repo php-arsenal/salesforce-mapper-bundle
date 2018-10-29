@@ -31,7 +31,7 @@ class LogicItLabSalesforceMapperExtension extends Extension
         if (isset($config['cache_driver'])) {
             switch ($config['cache_driver']) {
                 case 'file':
-                    $container->setAlias('logicitlab_salesforce_mapper.cache', 'logicitlab_salesforce_mapper.file_cache');
+                    $container->setAlias('logicitlab_salesforce_mapper.cache', 'LogicItLab\Salesforce\MapperBundle\Cache\FileCache');
                     break;
                 default:
                     break;
