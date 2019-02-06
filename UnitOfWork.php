@@ -36,4 +36,19 @@ class UnitOfWork
 
         return $description->getName();
     }
+    
+    public function clear()
+    {
+        $this->identityMap = [];
+    }
+
+    public function removeFromIdentityMap($modelClass, $id)
+    {
+        $sObjectName = $this->getObjectName($modelClass);
+
+        if (isset($this->identityMap[$sObjectName][$id])) {
+            $this->identityMap[$sObjectName][$id] = null;
+        }
+
+    }
 }
