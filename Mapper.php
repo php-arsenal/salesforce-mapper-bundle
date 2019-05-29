@@ -6,13 +6,13 @@ use Phpforce\SoapClient\ClientInterface;
 use Phpforce\SoapClient\Result;
 use LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader;
 use LogicItLab\Salesforce\MapperBundle\Annotation;
+use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
 use LogicItLab\Salesforce\MapperBundle\Response\MappedRecordIterator;
 use LogicItLab\Salesforce\MapperBundle\Query\Builder;
 use LogicItLab\Salesforce\MapperBundle\Event\BeforeSaveEvent;
 use LogicItLab\Salesforce\MapperBundle\UnitOfWork;
 use Doctrine\Common\Cache\Cache;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 
 /**
  * This mapper makes interaction with the Salesforce API using full objects
