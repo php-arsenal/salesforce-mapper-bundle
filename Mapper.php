@@ -177,10 +177,11 @@ class Mapper
      * @param array $order    Order to sort by as key/value pairs
      * @param int $related    Number of levels of related records to include
      * @param bool $deleted   Whether to include deleted records
+     * @param bool $returnAsArray   Whether to return as array
      * @return MappedRecordIterator
      */
     public function findBy($model, array $criteria, array $order = array(),
-        $related = 1, $deleted = false)
+        $related = 1, $deleted = false, $returnAsArray = false)
     {
         $query = $this->getQuerySelectPart($model, $related)
                . $this->getQueryWherePart($criteria, $model)
@@ -192,6 +193,9 @@ class Mapper
             $result = $this->client->query($query);
         }
 
+        if($returnAsArray) {
+            return iterator_to_array(new MappedRecordIterator($result, $this, $model));
+        }
         return new MappedRecordIterator($result, $this, $model);
     }
 
@@ -553,14 +557,14 @@ class Mapper
             if (!$field) {
                 throw new \InvalidArgumentException('Invalid field ' . $name);
             }
-            
+
             if (is_array($value)) {
                 $quotedValueList = array();
-                
+
                 foreach ($value as $v) {
                     $quotedValueList[] = $this->getQuotedWhereValue($field, $v, $objectDescription);
                 }
-                
+
                 $quotedValue = '(' . implode(',', $quotedValueList) . ')';
             } else {
                 $quotedValue = $this->getQuotedWhereValue($field, $value, $objectDescription);
