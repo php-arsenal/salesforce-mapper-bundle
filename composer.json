@@ -10,8 +10,8 @@
     }
   },
   "autoload-dev": {
-    "psr-4": {
-      "Tests\\LogicItLab\\": "tests/LogicItLab"
+    "psr-0": {
+      "Tests\\": ""
     }
   },
   "require": {
