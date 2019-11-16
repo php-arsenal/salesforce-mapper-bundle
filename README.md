@@ -1,17 +1,17 @@
-#Salesforce Mapper Bundle
+# Salesforce Mapper Bundle
 
 ![](https://img.shields.io/github/v/release/comsave/salesforce-mapper-bundle)
 ![](https://img.shields.io/travis/comsave/salesforce-mapper-bundle)
 
 ---
 
-Introduction
+##Introduction
 ------------
 
 This bundle provides transparent, object-oriented access to your Salesforce
 data. 
 
-### Features
+## Features
 
 * Easily fetch records from Salesforce, and save these same records back to
   Salesforce: read-only fields are automatically ignored when saving.
@@ -23,7 +23,7 @@ data.
   bulk creates, deletes, updates and upserts for mapped objects.
 * Completely unit tested (still working on that one).
 
-Documentation
+##Documentation
 -------------
 
 Documentation is included in the [Resources/doc directory](http://github.com/LogicItLab/LogicItLabSalesforceMapperBundle/tree/master/Resources/doc/index.md).
