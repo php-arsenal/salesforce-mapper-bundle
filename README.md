@@ -22,7 +22,7 @@ data.
   bulk creates, deletes, updates and upserts for mapped objects.
 * Completely unit tested (still working on that one).
 
-##Documentation
+## Documentation
 -------------
 
 Documentation is included in the [Resources/doc directory](http://github.com/LogicItLab/LogicItLabSalesforceMapperBundle/tree/master/Resources/doc/index.md).
