@@ -5,13 +5,19 @@
   "homepage": "https://github.com/comsave/salesforce-mapper-bundle",
   "license": "MIT",
   "autoload": {
-    "psr-0": {
-      "LogicItLab\\Salesforce\\MapperBundle": "src/"
+    "psr-4": {
+      "LogicItLab\\": "src/LogicItLab"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\LogicItLab\\": "tests/LogicItLab"
     }
   },
   "require": {
     "php": ">=7.2.0",
     "comsave/salesforce-bundle": "^3.0.2",
+    "symfony/event-dispatcher": "^3.4.9",
     "doctrine/common": "^2.7.2"
   },
   "require-dev": {

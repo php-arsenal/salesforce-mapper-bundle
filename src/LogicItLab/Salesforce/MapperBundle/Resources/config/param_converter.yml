@@ -1,0 +1,5 @@
+services:
+  LogicItLab\Salesforce\MapperBundle\Request\ParamConverter\SalesforceParamConverter:
+    arguments:
+      - '@LogicItLab\Salesforce\MapperBundle\Mapper'
+      - '%logicitlab_salesforce_mapper.param_converter%'
