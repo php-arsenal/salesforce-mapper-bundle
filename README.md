@@ -3,8 +3,6 @@
 ![](https://img.shields.io/github/v/release/comsave/salesforce-mapper-bundle)
 ![](https://img.shields.io/travis/comsave/salesforce-mapper-bundle)
 
----
-
 ## Introduction
 
 This bundle provides transparent, object-oriented access to your Salesforce
@@ -23,6 +21,5 @@ data.
 * Completely unit tested (still working on that one).
 
 ## Documentation
--------------
 
 Documentation is included in the [Resources/doc directory](http://github.com/LogicItLab/LogicItLabSalesforceMapperBundle/tree/master/Resources/doc/index.md).
