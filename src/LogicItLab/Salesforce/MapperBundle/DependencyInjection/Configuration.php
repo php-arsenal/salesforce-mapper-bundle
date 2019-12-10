@@ -18,15 +18,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        if(version_compare(Kernel::VERSION, '5.0') >= 0) {
-            $treeBuilder = new TreeBuilder('logicitlab_salesforce_mapper');
-            $rootNode = $treeBuilder->getRootNode();
-        }
-        else {
-            $treeBuilder = new TreeBuilder();
-            $rootNode = $treeBuilder->root('logicitlab_salesforce_mapper');
-        }
-
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('logicitlab_salesforce_mapper');
         $rootNode
             ->children()
             ->scalarNode('cache_driver')->defaultValue('file')->end()
