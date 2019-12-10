@@ -30,6 +30,7 @@ matrix:
 env:
   global:
     - CC_TEST_REPORTER_ID=9aad8a8b7a7e1f56a69449094ed32b6a145e5e30e7e2901690c4a46273338c44
+    - SYMFONY_VERSION=^4.3
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
