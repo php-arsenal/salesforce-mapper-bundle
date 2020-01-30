@@ -20,8 +20,8 @@
     "doctrine/common": "^2.7.2",
     "sensio/framework-extra-bundle": "^5.0.0",
     "symfony/dependency-injection": "^3.4|^4.3|^5.0",
-    "symfony/event-dispatcher": "^3.4|^4.3",
-    "symfony/http-kernel": "^3.4|^4.3"
+    "symfony/event-dispatcher": "^3.4|^4.3|^5.0",
+    "symfony/http-kernel": "^3.4|^4.3|^5.0"
   },
   "require-dev": {
     "phpunit/php-code-coverage": "^6.0",
