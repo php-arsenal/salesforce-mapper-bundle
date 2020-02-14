@@ -1,7 +1,8 @@
 # Salesforce Mapper Bundle
 
-![](https://img.shields.io/github/v/release/comsave/salesforce-mapper-bundle)
-![](https://img.shields.io/travis/comsave/salesforce-mapper-bundle)
+[![Release](https://img.shields.io/github/v/release/comsave/salesforce-mapper-bundle)](https://github.com/comsave/salesforce-mapper-bundle/releases)
+[![Travis](https://img.shields.io/travis/comsave/salesforce-mapper-bundle)](https://travis-ci.org/comsave/salesforce-mapper-bundle)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/comsave/salesforce-mapper-bundle)](https://codeclimate.com/github/comsave/salesforce-mapper-bundle)
 
 ## Introduction
 
