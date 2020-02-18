@@ -4,6 +4,7 @@ namespace LogicItLab\Salesforce\MapperBundle;
 
 use InvalidArgumentException;
 use LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader;
+use Phpforce\SoapClient\BulkSaver;
 use Phpforce\SoapClient\BulkSaverInterface;
 use Phpforce\SoapClient\Result\SaveResult;
 
@@ -129,6 +130,7 @@ class MappedBulkSaver implements MappedBulkSaverInterface
         $this->populatModelIds($results, 'upserted');
         $this->populatModelIds($results, 'created');
         $this->clearModels();
+        $this->bulkSaver->clear();
 
         return $results;
     }
