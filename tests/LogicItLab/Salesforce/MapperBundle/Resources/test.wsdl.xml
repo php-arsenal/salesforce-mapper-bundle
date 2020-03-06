@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Salesforce.com Enterprise Web Services API Version 48.0
+Generated on 2020-03-04 12:39:40 +0000.
+
+Package Versions:
+Rollup Helper (Version: 13.2, Namespace: rh2)
+DashboardPal (Version: 1.1, Namespace: dashboard_pal)
+Salesforce and Chatter Apps (Version: 1.19, Namespace: sf_chttr_apps)
+Salesforce Connected Apps (Version: 1.7, Namespace: sf_com_apps)
+Mailchimp Integration App (Version: 1.73, Namespace: mc4sf)
+Desk.com: All-in-one Customer Support System (Version: 2.8, Namespace: deskcom)
+Salesforce Communities Management (for Communities with Chatter) (Version: 5.1, Namespace: ca_collab_2_0)
+DocuSign eSignature for Salesforce (Version: 6.3, Namespace: dsfs)
+
+Copyright 1999-2020 salesforce.com, inc.
+All Rights Reserved
+-->
+
+<definitions targetNamespace="urn:enterprise.soap.sforce.com"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:tns="urn:enterprise.soap.sforce.com"
+             xmlns:fns="urn:fault.enterprise.soap.sforce.com"
+             xmlns:ens="urn:sobject.enterprise.soap.sforce.com">
+    <types>
+
+        <schema elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:sobject.enterprise.soap.sforce.com">
+
+            <import namespace="urn:enterprise.soap.sforce.com"/>
+
+
+            <!-- Base sObject (abstract) -->
+            <complexType name="sObject">
+                <sequence>
+                    <element name="fieldsToNull"       type="xsd:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+                    <element name="Id"                 type="tns:ID" nillable="true" />
+                </sequence>
+            </complexType>
+
+            <complexType name="AIRecordInsight">
+                <complexContent>
+                    <extension base="ens:sObject">
+                        <sequence>
+                            <element name="AIInsightActions" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                            <element name="AIInsightFeedbacks" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                            <element name="AIInsightValues" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                            <element name="Confidence" nillable="true" minOccurs="0" type="xsd:double"/>
+                            <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
+                            <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
+                            <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                            <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                            <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
+                            <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
+                            <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                            <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
+                            <element name="RunGuid" nillable="true" minOccurs="0" type="xsd:string"/>
+                            <element name="RunStartTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                            <element name="Status" nillable="true" minOccurs="0" type="xsd:string"/>
+                            <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                            <element name="Target" nillable="true" minOccurs="0" type="ens:Contract"/>
+                            <element name="TargetField" nillable="true" minOccurs="0" type="xsd:string"/>
+                            <element name="TargetId" nillable="true" minOccurs="0" type="tns:ID"/>
+                            <element name="TargetSobjectType" nillable="true" minOccurs="0" type="xsd:string"/>
+                            <element name="Type" nillable="true" minOccurs="0" type="xsd:string"/>
+                            <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
+                            <element name="ValidUntil" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+
+            <complexType name="Account">
+                <complexContent>
+                    <extension base="ens:sObject">
+                        <sequence>
+                            <element name="AccountNumber" nillable="true" minOccurs="0" type="xsd:string"/>
+                            <element name="Owner" nillable="true" minOccurs="0" type="xsd:string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+
+
+        <complexType name="User">
+            <complexContent>
+                <extension base="ens:sObject">
+                    <sequence>
+                        <element name="Country" nillable="true" minOccurs="0" type="xsd:string"/>
+                    </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
+
+    </types>
+    <!-- Soap Service Endpoint -->
+    <service name="SforceService">
+        <documentation>Sforce SOAP API</documentation>
+        <port binding="tns:SoapBinding" name="Soap">
+            <soap:address location="https://login.salesforce.com/services/Soap/c/48.0/0DF2p000000cI92"/>
+        </port>
+    </service>
+</definitions>
