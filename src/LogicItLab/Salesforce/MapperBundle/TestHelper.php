@@ -127,9 +127,7 @@ class TestHelper
         $lookingFor = sprintf('<element name="%s"', $fieldName);
         do {
             $line = trim(fgets($fileHandler));
-
             if (strpos($line, $lookingFor) !== 0) {
-
                 if (strpos($line, '</complexType>')) {
                     return false;
                 }

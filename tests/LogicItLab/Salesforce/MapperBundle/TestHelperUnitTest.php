@@ -82,14 +82,14 @@ User -> City';
 
         $missingFields = $this->testHelper->retrieveMissingFields();
 
-        $this->assertTrue(in_array('City', $missingFields['User']),
-            'Single missing field is not retrieved');
-
         $this->assertTrue(in_array('BillingCity', $missingFields['Account']) && in_array('BillingCity', $missingFields['Account']),
             'Consecutive missing fields are not retrieved');
 
         $this->assertTrue(in_array('entire object', $missingFields['Contact']),
             'Missing object is not retrieved');
+
+        $this->assertTrue(in_array('City', $missingFields['User']),
+            'Object consecutive of a missing object field is not retrieved');
 
         $this->assertEquals($expectedErrorMessage, $this->testHelper->buildErrorMessage($missingFields));
     }
