@@ -39,12 +39,12 @@ class TestHelper
      * @throws FileHandlerNotInitializedException
      * @throws \ReflectionException
      */
-    public function retrieveMissingFields(): array
+    public function retrieveMissingFields($firstSalesforceObject = null): array
     {
         $missingFields = [];
 
         $fileHandler = fopen($this->wsdlPath, "r");
-        $this->initializeFileHandler($fileHandler);
+        $this->initializeFileHandler($fileHandler, $firstSalesforceObject);
 
         foreach ($this->getAllClassAnnotations() as $annotation) {
             $objectName = $annotation['object']->name;
@@ -152,9 +152,13 @@ class TestHelper
      * @return bool
      * @throws FileHandlerNotInitializedException
      */
-    private function initializeFileHandler($fileHandler): void
+    private function initializeFileHandler($fileHandler, $firstSalesforceObject = null): void
     {
-        $lookingFor = sprintf('<complexType name="%s">', 'AIRecordInsight');
+        if ($firstSalesforceObject === null) {
+            $firstSalesforceObject = $this->getAllClassAnnotations()[0]['object']->name;
+        }
+
+        $lookingFor = sprintf('<complexType name="%s">', $firstSalesforceObject);
         do {
             $line = trim(fgets($fileHandler));
         } while (strcmp($line, $lookingFor) !== 0 && !feof($fileHandler));
@@ -162,6 +166,8 @@ class TestHelper
         if (feof($fileHandler)) {
             throw new FileHandlerNotInitializedException();
         }
+
+        fseek($fileHandler, -strlen($line) - 1, SEEK_CUR);
     }
 
     private function getFieldNames(?array $mapFieldAnnotation): ?array
