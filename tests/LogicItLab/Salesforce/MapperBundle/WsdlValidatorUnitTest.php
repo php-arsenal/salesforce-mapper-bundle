@@ -5,25 +5,25 @@ namespace Tests\LogicItLab\Salesforce\MapperBundle;
 use LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader;
 use LogicItLab\Salesforce\MapperBundle\Annotation\Field;
 use LogicItLab\Salesforce\MapperBundle\Annotation\SObject;
-use LogicItLab\Salesforce\MapperBundle\TestHelper;
+use LogicItLab\Salesforce\MapperBundle\WsdlValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\LogicItLab\Salesforce\MapperBundle\Resources\Classes\Account;
 use Tests\LogicItLab\Salesforce\MapperBundle\Resources\Classes\Contact;
 use Tests\LogicItLab\Salesforce\MapperBundle\Resources\Classes\User;
 
-class TestHelperUnitTest extends TestCase
+class WsdlValidatorUnitTest extends TestCase
 {
     /** @var AnnotationReader|MockObject */
     private $annotationReaderMock;
 
-    /** @var TestHelper */
+    /** @var WsdlValidator */
     private $testHelper;
 
     public function setUp(): void
     {
         $this->annotationReaderMock = $this->createMock(AnnotationReader::class);
-        $this->testHelper = new TestHelper(
+        $this->testHelper = new WsdlValidator(
             $this->annotationReaderMock,
             str_replace('LogicItLab/Salesforce/MapperBundle', '', dirname(__FILE__)),
             'LogicItLab/Salesforce/MapperBundle/Resources/Classes',

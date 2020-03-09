@@ -6,7 +6,7 @@ use LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader;
 use LogicItLab\Salesforce\MapperBundle\Exception\FileHandlerNotInitializedException;
 use Symfony\Component\Finder\Finder;
 
-class TestHelper
+class WsdlValidator
 {
     /** @var AnnotationReader */
     private $annotationReader;
