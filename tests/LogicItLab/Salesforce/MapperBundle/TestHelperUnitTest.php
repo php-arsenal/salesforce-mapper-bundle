@@ -67,20 +67,14 @@ Account -> BillingCountry
 Contact -> entire object
 User -> City';
 
-        $this->annotationReaderMock->expects($this->exactly(6))
+        $this->annotationReaderMock->expects($this->exactly(3))
             ->method('getSalesforceProperties')
             ->withConsecutive(
-                [Account::class],
-                [Contact::class],
-                [User::class],
                 [Account::class],
                 [Contact::class],
                 [User::class]
             )
             ->willReturnOnConsecutiveCalls(
-                $accountProperties,
-                $contactProperties,
-                $userProperties,
                 $accountProperties,
                 $contactProperties,
                 $userProperties

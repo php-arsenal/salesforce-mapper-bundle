@@ -39,12 +39,12 @@ class TestHelper
      * @throws FileHandlerNotInitializedException
      * @throws \ReflectionException
      */
-    public function retrieveMissingFields($firstSalesforceObject = null): array
+    public function retrieveMissingFields(): array
     {
         $missingFields = [];
 
         $fileHandler = fopen($this->wsdlPath, "r");
-        $this->initializeFileHandler($fileHandler, $firstSalesforceObject);
+        $this->initializeFileHandler($fileHandler);
 
         foreach ($this->getAllClassAnnotations() as $annotation) {
             $objectName = $annotation['object']->name;
@@ -152,13 +152,9 @@ class TestHelper
      * @return bool
      * @throws FileHandlerNotInitializedException
      */
-    private function initializeFileHandler($fileHandler, $firstSalesforceObject = null): void
+    private function initializeFileHandler($fileHandler): void
     {
-        if ($firstSalesforceObject === null) {
-            $firstSalesforceObject = $this->getAllClassAnnotations()[0]['object']->name;
-        }
-
-        $lookingFor = sprintf('<complexType name="%s">', $firstSalesforceObject);
+        $lookingFor = sprintf('<complexType name="%s">', 'sObject');
         do {
             $line = trim(fgets($fileHandler));
         } while (strcmp($line, $lookingFor) !== 0 && !feof($fileHandler));
@@ -166,8 +162,6 @@ class TestHelper
         if (feof($fileHandler)) {
             throw new FileHandlerNotInitializedException();
         }
-
-        fseek($fileHandler, -strlen($line) - 1, SEEK_CUR);
     }
 
     private function getFieldNames(?array $mapFieldAnnotation): ?array
