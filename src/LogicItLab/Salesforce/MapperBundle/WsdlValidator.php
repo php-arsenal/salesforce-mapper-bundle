@@ -12,10 +12,10 @@ class WsdlValidator
     private $annotationReader;
 
     /** @var string */
-    private $root;
+    private $projectRoot;
 
     /** @var string */
-    private $path;
+    private $relativePath;
 
     /** @var string */
     private $wsdlPath;
@@ -26,11 +26,11 @@ class WsdlValidator
      * @param string $wsdlPath
      * @codeCoverageIgnore
      */
-    public function __construct(AnnotationReader $annotationReader, string $root, string $path, string $wsdlPath)
+    public function __construct(AnnotationReader $annotationReader, string $projectRoot, string $relativePath, string $wsdlPath)
     {
         $this->annotationReader = $annotationReader;
-        $this->root = $root;
-        $this->path = $path;
+        $this->projectRoot = $projectRoot;
+        $this->relativePath = $relativePath;
         $this->wsdlPath = $wsdlPath;
     }
 
@@ -85,12 +85,12 @@ class WsdlValidator
     private function getAllClassNames(): array
     {
         $classNames = [];
-        $AllFiles = Finder::create()->files()->in($this->root.$this->path)->name('*.php');
+        $AllFiles = Finder::create()->files()->in($this->projectRoot.$this->relativePath)->name('*.php');
         foreach ($AllFiles as $file) {
             $realPath = $file->getRealpath();
-            $fileName = str_replace($this->root, '', $realPath);
+            $fileName = str_replace($this->projectRoot, '', $realPath);
             $className = str_replace('.php', '', $fileName);
-            if(strpos($this->root, 'test') !== false) {
+            if(strpos($this->projectRoot, 'test') !== false) {
                 $className = "Tests/$className";
             }
             $classNames[] = str_replace('/', '\\', $className);
