@@ -84,36 +84,36 @@ class WsdlValidator
 
     private function getAllClassNames(): array
     {
-        $filenames = [];
-        $finderFiles = Finder::create()->files()->in($this->root.$this->path)->name('*.php');
-        foreach ($finderFiles as $finderFile) {
-            $realPath = $finderFile->getRealpath();
+        $classNames = [];
+        $AllFiles = Finder::create()->files()->in($this->root.$this->path)->name('*.php');
+        foreach ($AllFiles as $file) {
+            $realPath = $file->getRealpath();
             $fileName = str_replace($this->root, '', $realPath);
             $className = str_replace('.php', '', $fileName);
             if(strpos($this->root, 'test') !== false) {
                 $className = "Tests/$className";
             }
-            $filenames[] = str_replace('/', '\\', $className);
+            $classNames[] = str_replace('/', '\\', $className);
         }
 
-        $filenames = array_filter($filenames, function ($element) {
+        $classNames = array_filter($classNames, function ($element) {
             return class_exists($element);
         });
 
-        sort($filenames);
-        return $filenames;
+        sort($classNames);
+        return $classNames;
     }
 
     private function hasObject($fileHandler, $objectName): bool
     {
-        $lookingFor = sprintf('<complexType name="%s">', $objectName);
+        $objectOpeningTag = sprintf('<complexType name="%s">', $objectName);
         do {
             $line = trim(fgets($fileHandler));
-            if (strpos($line, 'complexType name') !== false && strcmp($line, $lookingFor) > 0) {
+            if (strpos($line, 'complexType name') !== false && strcmp($line, $objectOpeningTag) > 0) {
                 fseek($fileHandler, -strlen($line) - 1, SEEK_CUR);
                 return false;
             }
-        } while (strcmp($line, $lookingFor) != 0 && !feof($fileHandler));
+        } while (strcmp($line, $objectOpeningTag) != 0 && !feof($fileHandler));
 
         if (feof($fileHandler)) {
             return false;
@@ -124,19 +124,19 @@ class WsdlValidator
 
     private function hasField($fileHandler, $fieldName): bool
     {
-        $lookingFor = sprintf('<element name="%s"', $fieldName);
+        $fieldOpeningTag = sprintf('<element name="%s"', $fieldName);
         do {
             $line = trim(fgets($fileHandler));
-            if (strpos($line, $lookingFor) !== 0) {
+            if (strpos($line, $fieldOpeningTag) !== 0) {
                 if (strpos($line, '</complexType>')) {
                     return false;
                 }
-                if (strpos($line, 'element name') !== false && strcmp($line, $lookingFor) > 0) {
+                if (strpos($line, 'element name') !== false && strcmp($line, $fieldOpeningTag) > 0) {
                     fseek($fileHandler, -strlen($line) - 1, SEEK_CUR);
                     return false;
                 }
             }
-        } while (strpos($line, $lookingFor) !== 0 && !feof($fileHandler));
+        } while (strpos($line, $fieldOpeningTag) !== 0 && !feof($fileHandler));
 
         if (feof($fileHandler)) {
             return false;
