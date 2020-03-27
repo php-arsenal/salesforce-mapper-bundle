@@ -2,6 +2,7 @@
 
 namespace LogicItLab\Salesforce\MapperBundle;
 
+use LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class WsdlValidatorTestCase extends KernelTestCase
@@ -17,9 +18,13 @@ class WsdlValidatorTestCase extends KernelTestCase
 
     public function bootValidator(string $baseProjectDir, string $modelDirPath, string $wsdlPath)
     {
-        $this->wsdlValidator = $this->bootKernel()->getContainer()->get(WsdlValidator::class);
-        $this->wsdlValidator->setBaseProjectDir($baseProjectDir);
-        $this->wsdlValidator->setModelDirPath($modelDirPath);
-        $this->wsdlValidator->setWsdlPath($wsdlPath);
+        /** @var AnnotationReader $annotationReader */
+        $annotationReader = $this->bootKernel()->getContainer()->get(AnnotationReader::class);
+        $this->wsdlValidator = new WsdlValidator(
+            $annotationReader,
+            $baseProjectDir,
+            $modelDirPath,
+            $wsdlPath
+        );
     }
 }
