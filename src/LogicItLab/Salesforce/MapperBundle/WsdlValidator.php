@@ -37,7 +37,7 @@ class WsdlValidator
         $this->wsdlPath = $wsdlPath;
     }
 
-    public function retrieveMissingFields(): array
+    public function validate(): array
     {
         $missingFields = [];
 
