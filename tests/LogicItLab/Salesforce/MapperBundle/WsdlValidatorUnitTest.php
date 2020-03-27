@@ -20,12 +20,10 @@ class WsdlValidatorUnitTest extends TestCase
     public function setUp(): void
     {
         $this->annotationReaderMock = $this->createMock(AnnotationReader::class);
-        $this->wsdlValidator = new WsdlValidator(
-            $this->annotationReaderMock,
-            str_replace('LogicItLab/Salesforce/MapperBundle', '', dirname(__FILE__)),
-            'LogicItLab/Salesforce/MapperBundle/Stubs',
-            sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__))
-        );
+        $this->wsdlValidator = new WsdlValidator($this->annotationReaderMock);
+        $this->wsdlValidator->setBaseProjectDir(str_replace('LogicItLab/Salesforce/MapperBundle', '', dirname(__FILE__)));
+        $this->wsdlValidator->setModelDirPath('LogicItLab/Salesforce/MapperBundle/Stubs');
+        $this->wsdlValidator->setWsdlPath(sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__)));
     }
 
     public function testRetrievesMissingFields()
