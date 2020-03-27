@@ -56,13 +56,13 @@ class WsdlValidator
             }
 
             if ($this->hasObject($fileHandler, $objectName) === false) {
-                $missingFields[$objectName] [] = "entire object";
+                $missingFields[$objectName][] = "entire object";
                 continue;
             }
 
             foreach ($fieldNames as $fieldName) {
                 if ($this->hasField($fileHandler, $fieldName) === false) {
-                    $missingFields[$objectName] [] = $fieldName;
+                    $missingFields[$objectName][] = $fieldName;
                 }
             }
         }
@@ -88,20 +88,31 @@ class WsdlValidator
         $classNames = [];
         $AllFiles = Finder::create()->files()->in($this->srcPath.$this->relativePath)->name('*.php');
         foreach ($AllFiles as $file) {
-            $realPath = $file->getRealpath();
-            $fileName = str_replace($this->srcPath, '', $realPath);
-            $className = str_replace('.php', '', $fileName);
-            if(strpos($this->srcPath, 'test') !== false) {
-                $className = "Tests/$className";
-            }
-            $classNames[] = str_replace('/', '\\', $className);
+            $classNames[] = $this->getClassNameFromFile($file);
         }
 
-        $classNames = array_filter($classNames, function ($element) {
-            return class_exists($element);
+        return $this->sort($this->filterNonExistentClasses($classNames));
+    }
+
+    private function getClassNameFromFile($file)
+    {
+        $realPath = $file->getRealpath();
+        $fileName = str_replace($this->srcPath, '', $realPath);
+        $className = str_replace('.php', '', $fileName);
+
+        if(strpos($this->srcPath, 'test') !== false) {
+            $className = "Tests/$className";
+        }
+
+        return str_replace('/', '\\', $className);
+    }
+
+    private function filterNonExistentClasses(array $classNames)
+    {
+        $classNames = array_filter($classNames, function ($className) {
+            return class_exists($className);
         });
 
-        sort($classNames);
         return $classNames;
     }
 
@@ -146,23 +157,6 @@ class WsdlValidator
         return true;
     }
 
-    /**
-     * @param $fileHandler
-     * @return bool
-     * @throws FileHandlerNotInitializedException
-     */
-    private function initializeFileHandler($fileHandler): void
-    {
-        $lookingFor = sprintf('<complexType name="%s">', 'sObject');
-        do {
-            $line = trim(fgets($fileHandler));
-        } while (strcmp($line, $lookingFor) !== 0 && !feof($fileHandler));
-
-        if (feof($fileHandler)) {
-            throw new FileHandlerNotInitializedException();
-        }
-    }
-
     private function getFieldNames(?array $mapFieldAnnotation): ?array
     {
         if(!$mapFieldAnnotation) {
@@ -171,19 +165,41 @@ class WsdlValidator
 
         $fieldNames = [];
         foreach ($mapFieldAnnotation as $propertyName => $annotation) {
-            $fieldNames [] = $annotation->name;
+            $fieldNames[] = $annotation->name;
         }
 
-        sort($fieldNames);
-        return $fieldNames;
+        return $this->sort($fieldNames);
+    }
+
+    /**
+     * @param $fileHandler
+     * @return bool
+     * @throws FileHandlerNotInitializedException
+     */
+    private function initializeFileHandler($fileHandler): void
+    {
+        $sObjectOpeningTag = sprintf('<complexType name="%s">', 'sObject');
+        do {
+            $line = trim(fgets($fileHandler));
+        } while (strcmp($line, $sObjectOpeningTag) !== 0 && !feof($fileHandler));
+
+        if (feof($fileHandler)) {
+            throw new FileHandlerNotInitializedException();
+        }
+    }
+
+    private function sort($array)
+    {
+        sort($array);
+        return $array;
     }
 
     public function buildErrorMessage(array $missingFields): string
     {
         $list = "These objects or fields are missing in wsdl:";
-        foreach ($missingFields as $object => $fields) {
+        foreach ($missingFields as $objectName => $fields) {
             foreach ($fields as $field) {
-                $list .= "\n$object -> $field";
+                $list .= "\n$objectName -> $field";
             }
         }
 

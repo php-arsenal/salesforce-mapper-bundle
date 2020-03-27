@@ -8,9 +8,9 @@ use LogicItLab\Salesforce\MapperBundle\Annotation\SObject;
 use LogicItLab\Salesforce\MapperBundle\WsdlValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Tests\LogicItLab\Salesforce\MapperBundle\Resources\Classes\Account;
-use Tests\LogicItLab\Salesforce\MapperBundle\Resources\Classes\Contact;
-use Tests\LogicItLab\Salesforce\MapperBundle\Resources\Classes\User;
+use Tests\LogicItLab\Salesforce\MapperBundle\Stubs\Account;
+use Tests\LogicItLab\Salesforce\MapperBundle\Stubs\Contact;
+use Tests\LogicItLab\Salesforce\MapperBundle\Stubs\User;
 
 class WsdlValidatorUnitTest extends TestCase
 {
@@ -26,8 +26,8 @@ class WsdlValidatorUnitTest extends TestCase
         $this->testHelper = new WsdlValidator(
             $this->annotationReaderMock,
             str_replace('LogicItLab/Salesforce/MapperBundle', '', dirname(__FILE__)),
-            'LogicItLab/Salesforce/MapperBundle/Resources/Classes',
-            sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__)),
+            'LogicItLab/Salesforce/MapperBundle/Stubs',
+            sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__))
         );
     }
 

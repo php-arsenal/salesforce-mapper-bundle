@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\LogicItLab\Salesforce\MapperBundle\Resources\Classes;
+namespace Tests\LogicItLab\Salesforce\MapperBundle\Stubs;
 
 use DateTime;
 use LogicItLab\Salesforce\MapperBundle\Annotation as Salesforce;
