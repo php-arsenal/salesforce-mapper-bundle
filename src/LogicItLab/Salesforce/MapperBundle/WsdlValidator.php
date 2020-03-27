@@ -3,7 +3,6 @@
 namespace LogicItLab\Salesforce\MapperBundle;
 
 use LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader;
-use LogicItLab\Salesforce\MapperBundle\Exception\FileHandlerNotInitializedException;
 use Symfony\Component\Finder\Finder;
 
 class WsdlValidator
@@ -12,40 +11,35 @@ class WsdlValidator
     private $annotationReader;
 
     /** @var string */
-    private $srcPath;
+    private $baseProjectDir;
 
     /** @var string */
-    private $relativePath;
+    private $modelDirPath;
 
     /** @var string */
     private $wsdlPath;
 
+    /** @var string */
+    private $wsdlContents;
+
     /**
      * @param AnnotationReader $annotationReader
-     * @param string $srcPath
-     * @param string $relativePath
+     * @param string $baseProjectDir
+     * @param string $modelDirPath
      * @param string $wsdlPath
      * @codeCoverageIgnore
      */
-    public function __construct(AnnotationReader $annotationReader, string $srcPath, string $relativePath, string $wsdlPath)
+    public function __construct(AnnotationReader $annotationReader, string $baseProjectDir, string $modelDirPath, string $wsdlPath)
     {
         $this->annotationReader = $annotationReader;
-        $this->srcPath = $srcPath;
-        $this->relativePath = $relativePath;
+        $this->baseProjectDir = $baseProjectDir;
+        $this->modelDirPath = $modelDirPath;
         $this->wsdlPath = $wsdlPath;
     }
 
-    /**
-     * @return array
-     * @throws FileHandlerNotInitializedException
-     * @throws \ReflectionException
-     */
     public function retrieveMissingFields(): array
     {
         $missingFields = [];
-
-        $fileHandler = fopen($this->wsdlPath, "r");
-        $this->initializeFileHandler($fileHandler);
 
         foreach ($this->getAllClassAnnotations() as $annotation) {
             $objectName = $annotation['object']->name;
@@ -55,13 +49,8 @@ class WsdlValidator
                 continue;
             }
 
-            if ($this->hasObject($fileHandler, $objectName) === false) {
-                $missingFields[$objectName][] = "entire object";
-                continue;
-            }
-
             foreach ($fieldNames as $fieldName) {
-                if ($this->hasField($fileHandler, $fieldName) === false) {
+                if ($this->hasField($objectName, $fieldName) === false) {
                     $missingFields[$objectName][] = $fieldName;
                 }
             }
@@ -70,44 +59,59 @@ class WsdlValidator
         return $missingFields;
     }
 
+    private function getObject(string $objectName): ?string
+    {
+        preg_match("/<complexType name=\"$objectName\">([\w\W]*)<\/complexType>/", $this->getWsdlContents(), $matches);
+
+        return $matches[0] ?? null;
+    }
+
+    private function hasField(string $objectName, string $fieldName): bool
+    {
+        return strpos($this->getObject($objectName), sprintf('<element name="%s"', $fieldName));
+    }
+
+    private function getWsdlContents(): string
+    {
+        if (!$this->wsdlContents) {
+            $this->wsdlContents = file_get_contents($this->wsdlPath);
+        }
+
+        return $this->wsdlContents;
+    }
+
     private function getAllClassAnnotations(): array
     {
-        $annotations = array_map(function ($className) {
+        return array_map(function ($className) {
             return $this->annotationReader->getSalesforceProperties($className);
         }, $this->getAllClassNames());
-
-        usort($annotations, function ($a, $b) {
-            return strcmp($a['object']->name, $b['object']->name);
-        });
-
-        return $annotations;
     }
 
     private function getAllClassNames(): array
     {
         $classNames = [];
-        $AllFiles = Finder::create()->files()->in($this->srcPath.$this->relativePath)->name('*.php');
+        $AllFiles = Finder::create()->files()->in($this->baseProjectDir . $this->modelDirPath)->name('*.php');
         foreach ($AllFiles as $file) {
             $classNames[] = $this->getClassNameFromFile($file);
         }
 
-        return $this->sort($this->filterNonExistentClasses($classNames));
+        return $this->filterNonExistentClasses($classNames);
     }
 
-    private function getClassNameFromFile($file)
+    private function getClassNameFromFile($file): string
     {
         $realPath = $file->getRealpath();
-        $fileName = str_replace($this->srcPath, '', $realPath);
+        $fileName = str_replace($this->baseProjectDir, '', $realPath);
         $className = str_replace('.php', '', $fileName);
 
-        if(strpos($this->srcPath, 'test') !== false) {
+        if (strpos($this->baseProjectDir, 'test') !== false) {
             $className = "Tests/$className";
         }
 
         return str_replace('/', '\\', $className);
     }
 
-    private function filterNonExistentClasses(array $classNames)
+    private function filterNonExistentClasses(array $classNames): array
     {
         $classNames = array_filter($classNames, function ($className) {
             return class_exists($className);
@@ -116,50 +120,9 @@ class WsdlValidator
         return $classNames;
     }
 
-    private function hasObject($fileHandler, $objectName): bool
-    {
-        $objectOpeningTag = sprintf('<complexType name="%s">', $objectName);
-        do {
-            $line = trim(fgets($fileHandler));
-            if (strpos($line, 'complexType name') !== false && strcmp($line, $objectOpeningTag) > 0) {
-                fseek($fileHandler, -strlen($line) - 1, SEEK_CUR);
-                return false;
-            }
-        } while (strcmp($line, $objectOpeningTag) != 0 && !feof($fileHandler));
-
-        if (feof($fileHandler)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    private function hasField($fileHandler, $fieldName): bool
-    {
-        $fieldOpeningTag = sprintf('<element name="%s"', $fieldName);
-        do {
-            $line = trim(fgets($fileHandler));
-            if (strpos($line, $fieldOpeningTag) !== 0) {
-                if (strpos($line, '</complexType>')) {
-                    return false;
-                }
-                if (strpos($line, 'element name') !== false && strcmp($line, $fieldOpeningTag) > 0) {
-                    fseek($fileHandler, -strlen($line) - 1, SEEK_CUR);
-                    return false;
-                }
-            }
-        } while (strpos($line, $fieldOpeningTag) !== 0 && !feof($fileHandler));
-
-        if (feof($fileHandler)) {
-            return false;
-        }
-
-        return true;
-    }
-
     private function getFieldNames(?array $mapFieldAnnotation): ?array
     {
-        if(!$mapFieldAnnotation) {
+        if (!$mapFieldAnnotation) {
             return null;
         }
 
@@ -168,36 +131,19 @@ class WsdlValidator
             $fieldNames[] = $annotation->name;
         }
 
-        return $this->sort($fieldNames);
+        return $fieldNames;
     }
 
-    /**
-     * @param $fileHandler
-     * @return bool
-     * @throws FileHandlerNotInitializedException
-     */
-    private function initializeFileHandler($fileHandler): void
+    private function sortByObjectName(array $missingFields)
     {
-        $sObjectOpeningTag = sprintf('<complexType name="%s">', 'sObject');
-        do {
-            $line = trim(fgets($fileHandler));
-        } while (strcmp($line, $sObjectOpeningTag) !== 0 && !feof($fileHandler));
-
-        if (feof($fileHandler)) {
-            throw new FileHandlerNotInitializedException();
-        }
-    }
-
-    private function sort($array)
-    {
-        sort($array);
-        return $array;
+        ksort($missingFields);
+        return $missingFields;
     }
 
     public function buildErrorMessage(array $missingFields): string
     {
         $list = "These objects or fields are missing in wsdl:";
-        foreach ($missingFields as $objectName => $fields) {
+        foreach ($this->sortByObjectName($missingFields) as $objectName => $fields) {
             foreach ($fields as $field) {
                 $list .= "\n$objectName -> $field";
             }

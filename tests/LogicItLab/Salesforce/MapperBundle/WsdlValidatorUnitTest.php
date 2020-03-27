@@ -8,9 +8,6 @@ use LogicItLab\Salesforce\MapperBundle\Annotation\SObject;
 use LogicItLab\Salesforce\MapperBundle\WsdlValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Tests\LogicItLab\Salesforce\MapperBundle\Stubs\Account;
-use Tests\LogicItLab\Salesforce\MapperBundle\Stubs\Contact;
-use Tests\LogicItLab\Salesforce\MapperBundle\Stubs\User;
 
 class WsdlValidatorUnitTest extends TestCase
 {
@@ -18,12 +15,12 @@ class WsdlValidatorUnitTest extends TestCase
     private $annotationReaderMock;
 
     /** @var WsdlValidator */
-    private $testHelper;
+    private $wsdlValidator;
 
     public function setUp(): void
     {
         $this->annotationReaderMock = $this->createMock(AnnotationReader::class);
-        $this->testHelper = new WsdlValidator(
+        $this->wsdlValidator = new WsdlValidator(
             $this->annotationReaderMock,
             str_replace('LogicItLab/Salesforce/MapperBundle', '', dirname(__FILE__)),
             'LogicItLab/Salesforce/MapperBundle/Stubs',
@@ -64,33 +61,19 @@ class WsdlValidatorUnitTest extends TestCase
         $expectedErrorMessage = 'These objects or fields are missing in wsdl:
 Account -> BillingCity
 Account -> BillingCountry
-Contact -> entire object
+Contact -> AccountId
 User -> City';
 
         $this->annotationReaderMock->expects($this->exactly(3))
             ->method('getSalesforceProperties')
-            ->withConsecutive(
-                [Account::class],
-                [Contact::class],
-                [User::class]
-            )
             ->willReturnOnConsecutiveCalls(
                 $accountProperties,
                 $contactProperties,
                 $userProperties
             );
 
-        $missingFields = $this->testHelper->retrieveMissingFields();
+        $missingFields = $this->wsdlValidator->retrieveMissingFields();
 
-        $this->assertTrue(in_array('BillingCity', $missingFields['Account']) && in_array('BillingCity', $missingFields['Account']),
-            'Consecutive missing fields are not retrieved');
-
-        $this->assertTrue(in_array('entire object', $missingFields['Contact']),
-            'Missing object is not retrieved');
-
-        $this->assertTrue(in_array('City', $missingFields['User']),
-            'Object consecutive of a missing object field is not retrieved');
-
-        $this->assertEquals($expectedErrorMessage, $this->testHelper->buildErrorMessage($missingFields));
+        $this->assertEquals($expectedErrorMessage, $this->wsdlValidator->buildErrorMessage($missingFields));
     }
 }
