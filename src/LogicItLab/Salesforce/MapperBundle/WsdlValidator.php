@@ -24,17 +24,11 @@ class WsdlValidator
 
     /**
      * @param AnnotationReader $annotationReader
-     * @param string $baseProjectDir
-     * @param string $modelDirPath
-     * @param string $wsdlPath
      * @codeCoverageIgnore
      */
-    public function __construct(AnnotationReader $annotationReader, string $baseProjectDir, string $modelDirPath, string $wsdlPath)
+    public function __construct(AnnotationReader $annotationReader)
     {
         $this->annotationReader = $annotationReader;
-        $this->baseProjectDir = $baseProjectDir;
-        $this->modelDirPath = $modelDirPath;
-        $this->wsdlPath = $wsdlPath;
     }
 
     public function retrieveMissingFields(): array
@@ -150,5 +144,20 @@ class WsdlValidator
         }
 
         return $list;
+    }
+
+    public function setBaseProjectDir(string $baseProjectDir): void
+    {
+        $this->baseProjectDir = $baseProjectDir;
+    }
+
+    public function setModelDirPath(string $modelDirPath): void
+    {
+        $this->modelDirPath = $modelDirPath;
+    }
+
+    public function setWsdlPath(string $wsdlPath): void
+    {
+        $this->wsdlPath = $wsdlPath;
     }
 }
