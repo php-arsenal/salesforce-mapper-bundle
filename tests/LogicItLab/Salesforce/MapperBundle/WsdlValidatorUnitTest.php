@@ -17,6 +17,25 @@ class WsdlValidatorUnitTest extends TestCase
     /** @var WsdlValidator */
     private $wsdlValidator;
 
+    private $expectedMissingFields = [
+        'Account' => [
+            'BillingCity',
+            'BillingCountry'
+        ],
+        'Contact' => [
+            'AccountId'
+        ],
+        'User' => [
+            'City'
+        ]
+    ];
+
+    private $expectedErrorMessage = 'These objects or fields are missing in wsdl:
+Account -> BillingCity
+Account -> BillingCountry
+Contact -> AccountId
+User -> City';
+
     public function setUp(): void
     {
         $this->annotationReaderMock = $this->createMock(AnnotationReader::class);
@@ -28,7 +47,7 @@ class WsdlValidatorUnitTest extends TestCase
         );
     }
 
-    public function testRetrievesMissingFields()
+    public function testValidate()
     {
         $accountProperties = array(
             'object' => new SObject(['name' => 'Account']),
@@ -58,12 +77,6 @@ class WsdlValidatorUnitTest extends TestCase
             ]
         );
 
-        $expectedErrorMessage = 'These objects or fields are missing in wsdl:
-Account -> BillingCity
-Account -> BillingCountry
-Contact -> AccountId
-User -> City';
-
         $this->annotationReaderMock->expects($this->exactly(3))
             ->method('getSalesforceProperties')
             ->willReturnOnConsecutiveCalls(
@@ -74,6 +87,11 @@ User -> City';
 
         $missingFields = $this->wsdlValidator->validate();
 
-        $this->assertEquals($expectedErrorMessage, $this->wsdlValidator->buildErrorMessage($missingFields));
+        $this->assertEquals($this->expectedMissingFields, $missingFields);
+    }
+
+    public function testBuildMessage()
+    {
+        $this->assertEquals($this->expectedErrorMessage, $this->wsdlValidator->buildErrorMessage($this->expectedMissingFields));
     }
 }
