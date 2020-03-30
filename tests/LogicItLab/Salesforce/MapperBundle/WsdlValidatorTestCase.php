@@ -4,9 +4,14 @@ namespace LogicItLab\Salesforce\MapperBundle;
 
 use LogicItLab\Salesforce\MapperBundle\Annotation\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class WsdlValidatorTestCase extends KernelTestCase
 {
+    /** @var KernelInterface */
+    protected $bootedKernel;
+
     /** @var WsdlValidator */
     private $wsdlValidator =  null;
 
@@ -21,12 +26,36 @@ class WsdlValidatorTestCase extends KernelTestCase
     public function bootValidator(string $baseProjectDir, string $modelDirPath, string $wsdlPath)
     {
         /** @var AnnotationReader $annotationReader */
-        $annotationReader = $this->bootKernel()->getContainer()->get(AnnotationReader::class);
+        $annotationReader = $this->getService(AnnotationReader::class);
         $this->wsdlValidator = new WsdlValidator(
             $annotationReader,
             $baseProjectDir,
             $modelDirPath,
             $wsdlPath
         );
+    }
+
+    public function getService(string $className)
+    {
+        return $this->getContainer()->get($className);
+    }
+
+    public function getParameter(string $parameterName)
+    {
+        return $this->getContainer()->getParameter($parameterName);
+    }
+
+    public function getContainer(): ContainerInterface
+    {
+        return $this->getKernel()->getContainer();
+    }
+
+    public function getKernel(): KernelInterface
+    {
+        if (!$this->bootedKernel) {
+            $this->bootedKernel = static::bootKernel();
+        }
+
+        return $this->bootedKernel;
     }
 }
