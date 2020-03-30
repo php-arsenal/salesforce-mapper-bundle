@@ -39,16 +39,12 @@ User -> City';
     public function setUp(): void
     {
         $this->annotationReaderMock = $this->createMock(AnnotationReader::class);
-        $this->wsdlValidator = new WsdlValidator(
-            $this->annotationReaderMock,
-            str_replace('LogicItLab/Salesforce/MapperBundle', '', dirname(__FILE__)),
-            'LogicItLab/Salesforce/MapperBundle/Stubs',
-            sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__))
-        );
+        $this->wsdlValidator = new WsdlValidator($this->annotationReaderMock);
     }
 
     public function testValidate()
     {
+
         $accountProperties = array(
             'object' => new SObject(['name' => 'Account']),
             'relations' => array(),
@@ -85,7 +81,10 @@ User -> City';
                 $userProperties
             );
 
-        $missingFields = $this->wsdlValidator->validate();
+        $missingFields = $this->wsdlValidator->validate(
+            sprintf('%s/Stubs', dirname(__FILE__)),
+            sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__))
+        );
 
         $this->assertEquals($this->expectedMissingFields, $missingFields);
     }

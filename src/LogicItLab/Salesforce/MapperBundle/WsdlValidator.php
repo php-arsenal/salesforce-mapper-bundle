@@ -11,38 +11,27 @@ class WsdlValidator
     private $annotationReader;
 
     /** @var string */
-    private $baseProjectDir;
-
-    /** @var string */
     private $modelDirPath;
 
     /** @var string */
     private $wsdlPath;
 
     /** @var string */
-    private $namespacePrefix;
-
-    /** @var string */
     private $wsdlContents;
 
     /**
      * @param AnnotationReader $annotationReader
-     * @param string $baseProjectDir
-     * @param string $modelDirPath
-     * @param string $wsdlPath
      * @codeCoverageIgnore
      */
-    public function __construct(AnnotationReader $annotationReader, string $baseProjectDir, string $modelDirPath, string $wsdlPath, string $namespacePrefix = "")
+    public function __construct(AnnotationReader $annotationReader)
     {
         $this->annotationReader = $annotationReader;
-        $this->baseProjectDir = $baseProjectDir;
-        $this->modelDirPath = $modelDirPath;
-        $this->wsdlPath = $wsdlPath;
-        $this->namespacePrefix = $namespacePrefix;
     }
 
-    public function validate(): array
+    public function validate(string $modelDirPath, string $wsdlPath): array
     {
+        $this->modelDirPath = $modelDirPath;
+        $this->wsdlPath = $wsdlPath;
         $missingFields = [];
 
         foreach ($this->getAllClassAnnotations() as $annotation) {
@@ -94,29 +83,31 @@ class WsdlValidator
     private function getAllClassNames(): array
     {
         $classNames = [];
-        $AllFiles = Finder::create()->files()->in($this->baseProjectDir . $this->modelDirPath)->name('*.php');
-        foreach ($AllFiles as $file) {
-            $classNames[] = $this->getClassNameFromFile($file);
+        $allFiles = Finder::create()->files()->in($this->modelDirPath)->name('*.php');
+        foreach ($allFiles as $file) {
+            $namespace = $this->getNamespaceFromFile($file);
+            $className = $this->getClassNameFromFile($file);
+
+            $classNames[] = "$namespace\\$className";
         }
 
         return $this->filterNonExistentClasses($classNames);
     }
 
-    private function getClassNameFromFile($file): string
+    private function getNamespaceFromFile(\SplFileInfo $file)
     {
-        $realPath = $file->getRealpath();
-        $fileName = str_replace($this->baseProjectDir, '', $realPath);
-        $className = str_replace('.php', '', $fileName);
+        $fileText = file_get_contents($file->getRealPath());
 
-        if (strpos($this->baseProjectDir, 'test') !== false) {
-            $className = "Tests/$className";
+        if (preg_match('#^namespace\s+(.+?);$#sm', $fileText, $matches)) {
+            return str_replace('/', '\\', $matches[1]);
         }
 
-        if ($this->namespacePrefix) {
-            $className = "$this->namespacePrefix/$className";
-        }
+        return null;
+    }
 
-        return str_replace('/', '\\', $className);
+    private function getClassNameFromFile(\SplFileInfo $file): string
+    {
+        return str_replace('.php', '', $file->getFileName());
     }
 
     private function filterNonExistentClasses(array $classNames): array
@@ -145,7 +136,6 @@ class WsdlValidator
     private function sortByObjectName(array $missingFields)
     {
         ksort($missingFields);
-
         return $missingFields;
     }
 
