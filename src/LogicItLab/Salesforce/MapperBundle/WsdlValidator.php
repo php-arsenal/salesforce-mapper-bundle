@@ -20,6 +20,9 @@ class WsdlValidator
     private $wsdlPath;
 
     /** @var string */
+    private $namespacePrefix;
+
+    /** @var string */
     private $wsdlContents;
 
     /**
@@ -29,12 +32,13 @@ class WsdlValidator
      * @param string $wsdlPath
      * @codeCoverageIgnore
      */
-    public function __construct(AnnotationReader $annotationReader, string $baseProjectDir, string $modelDirPath, string $wsdlPath)
+    public function __construct(AnnotationReader $annotationReader, string $baseProjectDir, string $modelDirPath, string $wsdlPath, string $namespacePrefix = "")
     {
         $this->annotationReader = $annotationReader;
         $this->baseProjectDir = $baseProjectDir;
         $this->modelDirPath = $modelDirPath;
         $this->wsdlPath = $wsdlPath;
+        $this->namespacePrefix = $namespacePrefix;
     }
 
     public function validate(): array
@@ -106,6 +110,10 @@ class WsdlValidator
 
         if (strpos($this->baseProjectDir, 'test') !== false) {
             $className = "Tests/$className";
+        }
+
+        if ($this->namespacePrefix) {
+            $className = "$this->namespacePrefix/$className";
         }
 
         return str_replace('/', '\\', $className);

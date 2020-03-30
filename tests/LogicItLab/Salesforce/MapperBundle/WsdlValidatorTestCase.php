@@ -23,7 +23,7 @@ class WsdlValidatorTestCase extends KernelTestCase
         $this->assertEmpty($missingFields, $this->wsdlValidator->buildErrorMessage($missingFields));
     }
 
-    public function bootValidator(string $baseProjectDir, string $modelDirPath, string $wsdlPath)
+    public function bootValidator(string $baseProjectDir, string $modelDirPath, string $wsdlPath, string $namespacePrefix = "")
     {
         /** @var AnnotationReader $annotationReader */
         $annotationReader = $this->getService(AnnotationReader::class);
@@ -31,7 +31,8 @@ class WsdlValidatorTestCase extends KernelTestCase
             $annotationReader,
             $baseProjectDir,
             $modelDirPath,
-            $wsdlPath
+            $wsdlPath,
+            $namespacePrefix
         );
     }
 
