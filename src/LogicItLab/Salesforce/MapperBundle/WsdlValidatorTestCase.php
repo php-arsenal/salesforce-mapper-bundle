@@ -13,7 +13,7 @@ class WsdlValidatorTestCase extends KernelTestCase
 
     public function buildValidator(): WsdlValidator
     {
-
+        $this->getService(WsdlValidator::class);
     }
 
     private function getService(string $className)
