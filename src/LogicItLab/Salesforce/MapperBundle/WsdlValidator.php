@@ -137,6 +137,7 @@ class WsdlValidator
     private function sortByObjectName(array $missingFields)
     {
         ksort($missingFields);
+
         return $missingFields;
     }
 
