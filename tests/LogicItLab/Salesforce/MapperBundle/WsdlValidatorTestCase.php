@@ -13,7 +13,9 @@ class WsdlValidatorTestCase extends KernelTestCase
     public function testWsdlIsValid()
     {
         $this->assertInstanceOf(WsdlValidator::class, $this->wsdlValidator, "Validator should be booted before run a test.");
-        $this->assertEmpty($this->wsdlValidator->validate());
+
+        $missingFields = $this->wsdlValidator->validate();
+        $this->assertEmpty($missingFields, $this->wsdlValidator->buildErrorMessage($missingFields));
     }
 
     public function bootValidator(string $baseProjectDir, string $modelDirPath, string $wsdlPath)
