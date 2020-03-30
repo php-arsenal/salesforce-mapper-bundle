@@ -68,7 +68,7 @@ class WsdlValidator
 
     private function hasField(string $objectName, string $fieldName): bool
     {
-        return strpos($this->getObject($objectName), sprintf('<element name="%s"', $fieldName));
+        return strpos($this->getObject($objectName), sprintf('<element name="%s"', $fieldName)) !== false;
     }
 
     private function getWsdlContents(): string
