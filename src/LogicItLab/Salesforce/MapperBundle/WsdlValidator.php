@@ -10,7 +10,7 @@ class WsdlValidator
     /** @var AnnotationReader */
     private $annotationReader;
 
-    /** @var string */
+    /** @var string|string[] */
     private $modelDirPath;
 
     /** @var string */
@@ -28,7 +28,12 @@ class WsdlValidator
         $this->annotationReader = $annotationReader;
     }
 
-    public function validate(string $modelDirPath, string $wsdlPath): array
+    /**
+     * @param string|string[] $modelDirPath
+     * @param string $wsdlPath
+     * @return array
+     */
+    public function validate($modelDirPath, string $wsdlPath): array
     {
         $this->modelDirPath = $modelDirPath;
         $this->wsdlPath = $wsdlPath;
