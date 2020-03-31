@@ -99,7 +99,7 @@ class WsdlValidator
         return $this->filterNonExistentClasses($classNames);
     }
 
-    private function getNamespaceFromFile(\SplFileInfo $file)
+    private function getNamespaceFromFile(\SplFileInfo $file): ?string
     {
         $fileText = file_get_contents($file->getRealPath());
 
@@ -138,7 +138,7 @@ class WsdlValidator
         return $fieldNames;
     }
 
-    private function sortByObjectName(array $missingFields)
+    private function sortByObjectName(array $missingFields): array
     {
         ksort($missingFields);
 
