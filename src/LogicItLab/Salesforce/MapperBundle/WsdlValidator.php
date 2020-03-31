@@ -40,7 +40,7 @@ class WsdlValidator
         $missingFields = [];
 
         foreach ($this->getAllClassAnnotations() as $annotation) {
-            $objectName = $annotation['object']->name;
+            $objectName = isset($annotation['object']) ? $annotation['object']->name : null;
             $fieldNames = $this->getFieldNames($annotation['fields']);
 
             if (!$objectName || !$fieldNames) {
@@ -48,7 +48,7 @@ class WsdlValidator
             }
 
             foreach ($fieldNames as $fieldName) {
-                if ($this->hasField($objectName, $fieldName) === false) {
+                if ($fieldName !== 'Id' && $this->hasField($objectName, $fieldName) === false) {
                     $missingFields[$objectName][] = $fieldName;
                 }
             }
