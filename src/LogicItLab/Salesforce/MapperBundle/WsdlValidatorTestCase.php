@@ -6,12 +6,32 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class WsdlValidatorTestCase extends KernelTestCase
+abstract class WsdlValidatorTestCase extends KernelTestCase
 {
     /** @var KernelInterface */
     protected $bootedKernel;
 
-    public function buildValidator(): WsdlValidator
+    public abstract function modelAndWsdlDataProvider(): array;
+
+    /**
+     * @param $modelsDir
+     * @param $wsdlPath
+     * @dataProvider modelAndWsdlDataProvider
+     */
+    public function testWsdlIsValid($modelsDir, $wsdlPath)
+    {
+        $this->markTestIncomplete();
+
+        $validator = $this->buildValidator();
+        $this->assertEmpty($validator->validate($modelsDir, $wsdlPath));
+    }
+
+    public function getParameter(string $parameterName)
+    {
+        return $this->getContainer()->getParameter($parameterName);
+    }
+
+    private function buildValidator(): WsdlValidator
     {
         $this->getService(WsdlValidator::class);
     }
@@ -19,11 +39,6 @@ class WsdlValidatorTestCase extends KernelTestCase
     private function getService(string $className)
     {
         return $this->getContainer()->get($className);
-    }
-
-    public function getParameter(string $parameterName)
-    {
-        return $this->getContainer()->getParameter($parameterName);
     }
 
     private function getContainer(): ContainerInterface

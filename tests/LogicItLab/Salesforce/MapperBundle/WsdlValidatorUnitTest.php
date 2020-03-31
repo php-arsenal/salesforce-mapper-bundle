@@ -45,33 +45,33 @@ User -> City';
     public function testValidate()
     {
 
-        $accountProperties = array(
+        $accountProperties = [
             'object' => new SObject(['name' => 'Account']),
-            'relations' => array(),
+            'relations' => [],
             'fields' => [
                 new Field(['name' => 'AccountNumber']),
                 new Field(['name' => 'BillingCity']),
                 new Field(['name' => 'BillingCountry']),
                 new Field(['name' => 'Owner']),
             ]
-        );
+        ];
 
-        $contactProperties = array(
+        $contactProperties = [
             'object' => new SObject(['name' => 'Contact']),
-            'relations' => array(),
+            'relations' => [],
             'fields' => [
                 new Field(['name' => 'AccountId']),
             ]
-        );
+        ];
 
-        $userProperties = array(
+        $userProperties = [
             'object' => new SObject(['name' => 'User']),
-            'relations' => array(),
+            'relations' => [],
             'fields' => [
                 new Field(['name' => 'City']),
                 new Field(['name' => 'Country']),
             ]
-        );
+        ];
 
         $this->annotationReaderMock->expects($this->exactly(3))
             ->method('getSalesforceProperties')

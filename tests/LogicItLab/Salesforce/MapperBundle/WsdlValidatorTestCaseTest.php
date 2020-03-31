@@ -2,14 +2,16 @@
 
 namespace Tests\LogicItLab\Salesforce\MapperBundle;
 
-use LogicItLab\Salesforce\MapperBundle\WsdlValidator;
-use PHPUnit\Framework\TestCase;
+use LogicItLab\Salesforce\MapperBundle\WsdlValidatorTestCase;
 
-class WsdlValidatorTestCaseTest extends TestCase
+class WsdlValidatorTestCaseTest extends WsdlValidatorTestCase
 {
-    public function testBuildValidator()
+    public function modelAndWsdlDataProvider(): array
     {
-        $this->markTestIncomplete();
-        $this->assertInstanceOf(WsdlValidator::class, $this->getWsdlValidator());
+        return [
+            [   sprintf('%s/Stubs', dirname(__FILE__)),
+                sprintf('%s/Resources/test.full.wsdl.xml', dirname(__FILE__))
+            ]
+        ];
     }
 }
