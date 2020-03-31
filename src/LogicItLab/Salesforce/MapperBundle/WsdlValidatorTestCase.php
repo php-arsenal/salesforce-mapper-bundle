@@ -16,12 +16,15 @@ abstract class WsdlValidatorTestCase extends TestCase
      */
     public function testWsdlIsValid($modelsDir, $wsdlPath)
     {
-        $this->assertEmpty($this->buildValidator()->validate($modelsDir, $wsdlPath));
+        $missingFields = $this->buildValidator()->validate($modelsDir, $wsdlPath);
+
+        $this->assertEmpty($missingFields, $this->buildValidator()->buildErrorMessage($missingFields));
     }
 
     private function buildValidator(): WsdlValidator
     {
         $annotationReader = new AnnotationReader(new \Doctrine\Common\Annotations\AnnotationReader());
+
         return new WsdlValidator($annotationReader);
     }
 }

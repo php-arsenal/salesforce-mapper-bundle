@@ -10,7 +10,7 @@ class WsdlValidatorTestCaseTest extends WsdlValidatorTestCase
     {
         return [
             [   sprintf('%s/Stubs', dirname(__FILE__)),
-                sprintf('%s/Resources/test.full.wsdl.xml', dirname(__FILE__))
+                sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__))
             ]
         ];
     }
