@@ -58,9 +58,15 @@ class MappedBulkSaver implements MappedBulkSaverInterface
         $this->bulkModels[$section][] = $model;
     }
 
-    private function clearModels()
+    private function clear()
     {
         $this->bulkModels = [];
+        $this->bulkSaver->clear();
+    }
+
+    public function itemsInQueue($section)
+    {
+        return isset($this->bulkModels[$section]) ? count($this->bulkModels[$section]) : 0;
     }
 
     /**
@@ -88,7 +94,7 @@ class MappedBulkSaver implements MappedBulkSaverInterface
     {
         $this->storeModel($model, $matchField);
 
-        $record = $this->mapper->mapToSalesforceObject($model, null !== $matchField);
+        $record = $this->mapper->mapToSalesforceObject($model);
         $objectMapping = $this->annotationReader->getSalesforceObject($model);
 
         $matchFieldName = null;
@@ -125,12 +131,14 @@ class MappedBulkSaver implements MappedBulkSaverInterface
      */
     public function flush()
     {
-        $results = $this->bulkSaver->flush();
-
-        $this->populatModelIds($results, 'upserted');
-        $this->populatModelIds($results, 'created');
-        $this->clearModels();
-        $this->bulkSaver->clear();
+        try {
+            $results = $this->bulkSaver->flush();
+            $this->populatModelIds($results, 'upserted');
+            $this->populatModelIds($results, 'created');
+        }
+        finally {
+            $this->clear();
+        }
 
         return $results;
     }
