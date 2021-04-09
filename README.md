@@ -1,7 +1,7 @@
 # Salesforce Mapper Bundle
 
 [![Release](https://img.shields.io/github/v/release/php-arsenal/salesforce-mapper-bundle)](https://github.com/php-arsenal/salesforce-mapper-bundle/releases)
-[![Travis](https://img.shields.io/travis/php-arsenal/salesforce-mapper-bundle)](https://travis-ci.org/php-arsenal/salesforce-mapper-bundle)
+[![Travis](https://img.shields.io/travis/php-arsenal/salesforce-mapper-bundle)](https://travis-ci.com/php-arsenal/salesforce-mapper-bundle)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/php-arsenal/salesforce-mapper-bundle)](https://codeclimate.com/github/php-arsenal/salesforce-mapper-bundle)
 [![Packagist](https://img.shields.io/packagist/dt/php-arsenal/salesforce-mapper-bundle)](https://packagist.org/packages/php-arsenal/salesforce-mapper-bundle)
 
