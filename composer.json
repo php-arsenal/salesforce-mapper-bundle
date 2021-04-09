@@ -1,8 +1,8 @@
 {
-  "name": "comsave/salesforce-mapper-bundle",
+  "name": "php-arsenal/salesforce-mapper-bundle",
   "type": "symfony-bundle",
   "description": "Salesforce object mapper bundle",
-  "homepage": "https://github.com/comsave/salesforce-mapper-bundle",
+  "homepage": "https://github.com/php-arsenal/salesforce-mapper-bundle",
   "license": "MIT",
   "autoload": {
     "psr-4": {
@@ -16,7 +16,7 @@
   },
   "require": {
     "php": ">=7.2.0",
-    "comsave/salesforce-bundle": "^3.4.5",
+    "php-arsenal/salesforce-bundle": "^3.4.5",
     "doctrine/common": "^2.7.2",
     "sensio/framework-extra-bundle": "^5.0.0",
     "symfony/dependency-injection": "^3.4|^4.3",
@@ -31,24 +31,6 @@
     "run-tests": "vendor/bin/phpunit",
     "run-coverage": "@run-tests --coverage-clover tests/_output/coverage.xml"
   },
-  "authors": [
-    {
-      "name": "David de Boer",
-      "email": "david@ddeboer.nl"
-    },
-    {
-      "name": "Joeri Veder",
-      "email": "joeri.veder@comsave.com"
-    },
-    {
-      "name": "Vaidas Bagdonas",
-      "email": "vaidas.bagdonas@comsave.com"
-    },
-    {
-      "name": "Dirk Scholten",
-      "email": "dirk.scholten@comsave.com"
-    }
-  ],
   "config": {
     "sort-packages": true
   },
