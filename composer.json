@@ -6,12 +6,12 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "LogicItLab\\": "src/LogicItLab"
+      "PhpArsenal\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\LogicItLab\\": "tests/LogicItLab"
+      "Tests\\PhpArsenal\\SalesforceMapperBundle\\": "tests"
     }
   },
   "require": {

@@ -24,5 +24,5 @@ data.
 
 ## Documentation
 
-Documentation is included in the [Resources/doc directory](http://github.com/LogicItLab/LogicItLabSalesforceMapperBundle/tree/master/Resources/doc/index.md).
+Documentation is included in the [Resources/doc directory](http://github.com/PhpArsenal/PhpArsenalSalesforceMapperBundle/tree/master/Resources/doc/index.md).
  

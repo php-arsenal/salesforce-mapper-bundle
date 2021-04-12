@@ -1,0 +1,32 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false       # Allows optimizing the container by removing unused services; this also means
+      # fetching services directly from the container via $container->get() won't work.
+    # The best practice is to be explicit about your dependencies anyway.
+
+  PhpArsenal\SalesforceMapperBundle\:
+    resource: '../../*'
+    exclude: '../../{Tests}'
+
+  PhpArsenal\SalesforceMapperBundle\Mapper:
+    arguments:
+      - '@arsenal.soap_client'
+      - '@PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader'
+      - '@PhpArsenal\SalesforceMapperBundle\Cache\FileCache'
+
+  PhpArsenal\SalesforceMapperBundle\Cache\FileCache:
+    arguments:
+      - '%kernel.cache_dir%/salesforce'
+
+  PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader:
+    arguments:
+      - '@annotation_reader'
+
+  PhpArsenal\SalesforceMapperBundle\MappedBulkSaver:
+    arguments:
+      - '@arsenal.soap_client.bulk_saver'
+      - '@PhpArsenal\SalesforceMapperBundle\Mapper'
+      - '@PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader'
