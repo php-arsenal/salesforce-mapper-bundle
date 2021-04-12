@@ -1,7 +1,7 @@
 {
   "name": "php-arsenal/salesforce-mapper-bundle",
   "type": "symfony-bundle",
-  "description": "Maps raw Salesforce objects with your models.",
+  "description": "Symfony bundle that maps raw Salesforce objects with your models.",
   "homepage": "https://github.com/php-arsenal/salesforce-mapper-bundle",
   "license": "MIT",
   "autoload": {
