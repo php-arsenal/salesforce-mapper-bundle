@@ -93,3 +93,17 @@ is a generic client bundle, this directory does not contain custom objects, nor
 do the objects in it have custom properties. 
 
 If you would like to add custom objects or properties, please extend from `AbstractModel` or the models provided.
+
+The mapper knows how to map fields reading the annotations above the property:
+
+```php
+...
+use PhpArsenal\SalesforceMapperBundle\Annotation as Salesforce;
+...
+    /**
+     * @var string
+     * @Salesforce\Field(name="AccountId")
+     */
+    protected $accountId;
+...
+```
