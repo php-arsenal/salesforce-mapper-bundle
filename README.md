@@ -40,7 +40,7 @@ Use the mapper to fetch records from Salesforce. An example:
 <?php
 
 use PhpArsenal\SalesforceMapperBundle\Mapper;
-use PhpArsenal\Salesforce\MapperBundle\Model\Opportunity;
+use PhpArsenal\SalesforceMapperBundle\Model\Opportunity;
 
 class MyService {
     private $mapper;
