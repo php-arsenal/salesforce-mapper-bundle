@@ -26,7 +26,6 @@ The Symfony bundle helps you fetch & map Salesforce objects effectivelly to your
 * Completely unit tested (still working on that one).
 
 ## Usage
------
 
 Once installed, the bundle offers several services that are autowired for dependancy injection:
 
