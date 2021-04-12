@@ -287,7 +287,7 @@ class Mapper
 
         if ($this->eventDispatcher) {
             $event = new BeforeSaveEvent($models);
-            $this->eventDispatcher->dispatch(Events::beforeSave, $event);
+            $this->eventDispatcher->dispatch($event, Events::beforeSave);
         }
 
         $objectsToBeCreated = array();
