@@ -86,6 +86,8 @@ echo $account->getId(); // Returns the new ID, e.g. `001D000000h0Jod`
 ...
 ```
 
+`PhpArsenal\SalesforceMapperBundle\MappedBulkSaver` can be used to save mulitple objects in batches.
+
 ### Custom objects and properties
 
 In the `Model` folder you will find several standard Salesforce objects. As this
