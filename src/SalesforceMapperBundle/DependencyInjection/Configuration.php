@@ -18,9 +18,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('arsenal_salesforce_mapper');
         $treeBuilder
-            ->root('arsenal_salesforce_mapper')
+            ->getRootNode()
             ->children()
                 ->scalarNode('cache_driver')->defaultValue('file')->end()
                 ->arrayNode('param_converter')
