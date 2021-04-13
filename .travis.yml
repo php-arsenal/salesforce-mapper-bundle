@@ -4,8 +4,8 @@ php:
   - 7.4
   - 8.0
 
-before_install:
-  - SYMFONY_DEPENDENCIES=$(cat composer.json | jq '.require | to_entries[] | "\(.key):\(.value)"' | egrep -o '(symfony\/[^:]+)[^|]+\|' | egrep -o '(symfony\/[^:]+)'); for SYMFONY_DEPENDENCY in $SYMFONY_DEPENDENCIES; do composer require "${SYMFONY_DEPENDENCY}:${SYMFONY_VERSION}" --no-update; done
+# before_install:
+#   - SYMFONY_DEPENDENCIES=$(cat composer.json | jq '.require | to_entries[] | "\(.key):\(.value)"' | egrep -o '(symfony\/[^:]+)[^|]+\|' | egrep -o '(symfony\/[^:]+)'); for SYMFONY_DEPENDENCY in $SYMFONY_DEPENDENCIES; do composer require "${SYMFONY_DEPENDENCY}:${SYMFONY_VERSION}" --no-update; done
 
 install: composer install --no-interaction
 
@@ -14,7 +14,7 @@ script: composer run-coverage
 env:
   global:
     - CC_TEST_REPORTER_ID=d503c04d229ecd47667b191b117faaf5ebdd19b9dcff8907b25c71cf274dbc77
-    - SYMFONY_VERSION=^5.2
+#     - SYMFONY_VERSION=^5.2
 
 # matrix:
 #   include:
