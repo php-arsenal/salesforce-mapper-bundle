@@ -28,7 +28,7 @@ class SalesforceMapperExtension extends Extension
         if (isset($config['cache_driver'])) {
             switch ($config['cache_driver']) {
                 case 'file':
-                    $container->setAlias('arsenal_salesforce_mapper.cache',
+                    $container->setAlias('salesforce_mapper.cache',
                         'PhpArsenal\SalesforceMapperBundle\Cache\FileCache');
                     break;
                 default:
@@ -37,7 +37,7 @@ class SalesforceMapperExtension extends Extension
         }
 
         $yamlLoader->load('param_converter.yml');
-        $container->setParameter('arsenal_salesforce_mapper.param_converter', $config['param_converter']);
+        $container->setParameter('salesforce_mapper.param_converter', $config['param_converter']);
     }
 }
 

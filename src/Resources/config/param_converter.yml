@@ -2,4 +2,4 @@ services:
   PhpArsenal\SalesforceMapperBundle\Request\ParamConverter\SalesforceParamConverter:
     arguments:
       - '@PhpArsenal\SalesforceMapperBundle\Mapper'
-      - '%arsenal_salesforce_mapper.param_converter%'
+      - '%salesforce_mapper.param_converter%'

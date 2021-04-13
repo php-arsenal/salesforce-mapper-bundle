@@ -13,7 +13,7 @@ services:
 
   PhpArsenal\SalesforceMapperBundle\Mapper:
     arguments:
-      - '@arsenal.soap_client'
+      - '@salesforce.soap_client'
       - '@PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader'
       - '@PhpArsenal\SalesforceMapperBundle\Cache\FileCache'
 
@@ -27,6 +27,6 @@ services:
 
   PhpArsenal\SalesforceMapperBundle\MappedBulkSaver:
     arguments:
-      - '@arsenal.soap_client.bulk_saver'
+      - '@salesforce.soap_client.bulk_saver'
       - '@PhpArsenal\SalesforceMapperBundle\Mapper'
       - '@PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader'

@@ -490,7 +490,7 @@ class Mapper
      */
     private function doGetObjectDescription($objectName)
     {
-        $cacheId = sprintf('arsenal_salesforce_mapper.object_description.%s',
+        $cacheId = sprintf('salesforce_mapper.object_description.%s',
             $objectName);
         if ($this->cache->contains($cacheId)) {
             return $this->cache->fetch($cacheId);
