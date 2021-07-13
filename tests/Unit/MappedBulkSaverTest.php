@@ -22,7 +22,7 @@ class MappedBulkSaverTest extends TestCase
     /** @var Mapper|MockObject */
     private $mapperMock;
 
-    /** @var AnnotationReader|MockObject */
+    /** @var AnnotationReaderTest|MockObject */
     private $annotationReaderMock;
 
     public function setUp(): void

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class WsdlValidatorUnitTest extends TestCase
 {
-    /** @var AnnotationReader|MockObject */
+    /** @var AnnotationReaderTest|MockObject */
     private $annotationReaderMock;
 
     /** @var WsdlValidator */

@@ -403,6 +403,7 @@ class Mapper
         $sObject = new stdClass;
         $sObject->fieldsToNull = array();
 
+        /** @var Result\DescribeSObjectResult $objectDescription */
         $objectDescription = $this->getObjectDescription($model);
         $reflClass = new ReflectionClass($model);
         $mappedProperties = $this->annotationReader->getSalesforceFields($model);
@@ -439,9 +440,21 @@ class Mapper
                 || $fieldDescription->isIdLookup()) {
 
                 // Get value through reflection
-                $reflProperty = $reflClass->getProperty($property);
-                $reflProperty->setAccessible(true);
-                $value = $reflProperty->getValue($model);
+                if($reflClass->hasProperty($property)) {
+                    $reflProperty = $reflClass->getProperty($property);
+                    $reflProperty->setAccessible(true);
+                    $value = $reflProperty->getValue($model);
+                }
+                else {
+                    // Get from method
+                    foreach((new ReflectionClass($model))->getMethods() as $reflectionMethod) {
+                        if($this->annotationReader->reader->getMethodAnnotation($reflectionMethod, Annotation\Field::class)) {
+                            $methodName = $reflectionMethod->getName();
+                            $value = $model->$methodName();
+                            break;
+                        }
+                    }
+                }
 
                 if ($mapping instanceof Annotation\Relation) {
                     // @todo Implements recursive saving for new related
@@ -750,11 +763,6 @@ class Mapper
         }
 
         return $subqueries;
-    }
-
-    public function getClassMetadata($className)
-    {
-        $class;
     }
 
     public function merge($merge)

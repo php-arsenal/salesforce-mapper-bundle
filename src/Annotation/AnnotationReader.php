@@ -2,6 +2,7 @@
 
 namespace PhpArsenal\SalesforceMapperBundle\Annotation;
 
+use Doctrine\Common\Annotations\Annotation;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Collections\ArrayCollection;
 use ReflectionClass;
@@ -90,14 +91,10 @@ class AnnotationReader
             $salesforceProperties['object'] = $classAnnotation;
         }
 
-        $reflProperties = $reflClass->getProperties();
-        foreach ($reflProperties as $reflProperty) {
-            $propertyAnnotations = $this->reader->getPropertyAnnotations(
-                $reflProperty, 'PhpArsenal\SalesforceMapperBundle\Annotation'
-            );
+        foreach ($reflClass->getProperties() as $reflProperty) {
+            $annotations = $this->reader->getPropertyAnnotations($reflProperty);
 
-
-            foreach ($propertyAnnotations as $key => $propertyAnnotation) {
+            foreach ($annotations as $propertyAnnotation) {
                 if ($propertyAnnotation instanceof Relation) {
                     $salesforceProperties['relations'][$reflProperty->getName()] =
                         $propertyAnnotation;
@@ -105,6 +102,16 @@ class AnnotationReader
                 } elseif ($propertyAnnotation instanceof Field) {
                     $salesforceProperties['fields'][$reflProperty->getName()] =
                         $propertyAnnotation;
+                }
+            }
+        }
+
+        foreach ($reflClass->getMethods() as $reflectionMethod) {
+            $annotations = $this->reader->getMethodAnnotations($reflectionMethod);
+
+            foreach ($annotations as $annotation) {
+                if ($annotation instanceof Field) {
+                    $salesforceProperties['fields'][$annotation->name] = $annotation;
                 }
             }
         }

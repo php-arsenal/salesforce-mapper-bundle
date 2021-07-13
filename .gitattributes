@@ -1,0 +1,3 @@
+* text=auto eol=lf
+*.lock binary
+tests/Resources/wsdl/* binary
