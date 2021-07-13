@@ -1,8 +1,10 @@
 <?php
 
-namespace PhpArsenal\SalesforceMapperBundle;
+namespace Tests\PhpArsenal\SalesforceMapperBundle\Unit;
 
 use PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader;
+use PhpArsenal\SalesforceMapperBundle\MappedBulkSaver;
+use PhpArsenal\SalesforceMapperBundle\Mapper;
 use PhpArsenal\SalesforceMapperBundle\Model\Account;
 use PhpArsenal\SoapClient\BulkSaver;
 use PhpArsenal\SoapClient\Result\SaveResult;

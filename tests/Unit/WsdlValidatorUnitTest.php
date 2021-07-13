@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\PhpArsenal\SalesforceMapperBundle;
+namespace Tests\PhpArsenal\SalesforceMapperBundle\Unit;
 
 use PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader;
 use PhpArsenal\SalesforceMapperBundle\Annotation\Field;
@@ -82,8 +82,8 @@ User -> City';
             );
 
         $missingFields = $this->wsdlValidator->validate(
-            sprintf('%s/Stubs', dirname(__FILE__)),
-            sprintf('%s/Resources/test.wsdl.xml', dirname(__FILE__))
+            sprintf('%s/../Stubs', dirname(__FILE__)),
+            sprintf('%s/../Resources/test.wsdl.xml', dirname(__FILE__))
         );
 
         $this->assertEquals($this->expectedMissingFields, $missingFields);

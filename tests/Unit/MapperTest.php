@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\PhpArsenal\SalesforceMapperBundle;
+namespace Tests\PhpArsenal\SalesforceMapperBundle\Unit;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,13 +8,14 @@ use PhpArsenal\SalesforceMapperBundle\Annotation;
 use PhpArsenal\SalesforceMapperBundle\Events;
 use PhpArsenal\SalesforceMapperBundle\Mapper;
 use PhpArsenal\SalesforceMapperBundle\Model;
+use PhpArsenal\SoapClient\Client;
 use PhpArsenal\SoapClient\Result\QueryResult;
 use PhpArsenal\SoapClient\Result\RecordIterator;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Tests\PhpArsenal\SalesforceMapperBundle\Mock;
 
-class MapperTest extends PHPUnit_Framework_TestCase
+class MapperTest extends TestCase
 {
     public function testCount()
     {
@@ -31,7 +32,7 @@ class MapperTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped();
 
-        $client = $this->getMockBuilder('PhpArsenal\Salesforce\ClientBundle\Client')
+        $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
 
