@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\PhpArsenal\SalesforceMapperBundle\Functional;
+namespace Tests\PhpArsenal\SalesforceMapperBundle\Unit;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Collections\ArrayCollection;
