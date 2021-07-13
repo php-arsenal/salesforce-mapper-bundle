@@ -4,6 +4,7 @@ namespace Tests\PhpArsenal\SalesforceMapperBundle\Functional;
 
 use Doctrine\Common\Cache\VoidCache;
 use PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader;
+use PhpArsenal\SalesforceMapperBundle\Cache\FileCache;
 use PhpArsenal\SalesforceMapperBundle\Mapper;
 use PhpArsenal\SoapClient\ClientInterface;
 use PhpArsenal\SoapClient\Result\DescribeSObjectResult;
