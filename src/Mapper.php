@@ -347,7 +347,7 @@ class Mapper
             return $this->unitOfWork->find($modelClass, $sObject->Id);
         }
 
-        $model = new $modelClass();
+        $model = (new ReflectionClass($modelClass))->newInstanceWithoutConstructor();
         $reflObject = new ReflectionObject($model);
 
         // Set Salesforce property values on domain object
