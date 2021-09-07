@@ -14,4 +14,5 @@ class Relation extends Annotation
     public $field;
     public $class;
     public $name;
+    public $optional;
 }
