@@ -353,7 +353,7 @@ class Mapper
         // Set Salesforce property values on domain object
         $fields = $this->annotationReader->getSalesforceFields($modelClass);
         foreach ($fields as $name => $field) {
-            if (isset($sObject->{$field->name})) {
+            if (isset($sObject->{$field->name}) && $reflObject->hasProperty($name)) {
                 // Use reflection to set the protected/private properties
                 $reflProperty = $reflObject->getProperty($name);
                 $reflProperty->setAccessible(true);
@@ -447,10 +447,12 @@ class Mapper
                 }
                 else {
                     // Get from method
-                    foreach((new ReflectionClass($model))->getMethods() as $reflectionMethod) {
-                        if($this->annotationReader->reader->getMethodAnnotation($reflectionMethod, Annotation\Field::class)) {
-                            $methodName = $reflectionMethod->getName();
-                            $value = $model->$methodName();
+                    foreach($reflClass->getMethods() as $reflectionMethod) {
+                        /** @var Annotation\Field|null $methodFieldAnnotation */
+                        $methodFieldAnnotation = $this->annotationReader->reader->getMethodAnnotation($reflectionMethod, Annotation\Field::class);
+
+                        if($methodFieldAnnotation && $methodFieldAnnotation->name === $fieldDescription->getName()) {
+                            $value = $reflectionMethod->invoke($model);
                             break;
                         }
                     }
