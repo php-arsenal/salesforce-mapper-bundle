@@ -462,9 +462,8 @@ class Mapper
                     // records.
                     $sObject->{$fieldDescription->getName()} = null;
 
-                    if ($value !== null && method_exists($value, 'getId') && $value->getId()) {
-                        $value = $value->getId();
-                        $sObject->{$fieldDescription->getName()} = $value;
+                    if ($value !== null && method_exists($value, 'getId')) {
+                        $sObject->{$fieldDescription->getName()} = $value->getId();
                     }
 
                     continue;
