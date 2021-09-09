@@ -410,6 +410,9 @@ class Mapper
         $allMappings = $mappedProperties->toArray() + $mappedRelations;
 
         foreach ($allMappings as $property => $mapping) {
+            if(isset($value)) {
+                unset($value);
+            }
             if ($mapping instanceof Annotation\Field) {
                 $fieldDescription = $objectDescription->getField($mapping->name);
                 $fieldName = $mapping->name;
