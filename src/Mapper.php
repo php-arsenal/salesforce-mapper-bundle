@@ -342,10 +342,11 @@ class Mapper
      */
     public function mapToDomainObject($sObject, $modelClass)
     {
+        // todo: this prevents of updating an object
         // Try to find mapped model in unit of work
-        if ($this->unitOfWork->find($modelClass, $sObject->Id)) {
-            return $this->unitOfWork->find($modelClass, $sObject->Id);
-        }
+//        if ($this->unitOfWork->find($modelClass, $sObject->Id)) {
+//            return $this->unitOfWork->find($modelClass, $sObject->Id);
+//        }
 
         $model = (new ReflectionClass($modelClass))->newInstanceWithoutConstructor();
         $reflObject = new ReflectionObject($model);
