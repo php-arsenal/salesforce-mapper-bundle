@@ -405,7 +405,7 @@ class Mapper
 
         /** @var Result\DescribeSObjectResult $objectDescription */
         $objectDescription = $this->getObjectDescription($model);
-        $reflClass = new ReflectionClass((new Configuration())->getClassNameInflector()->getUserClassName($model));
+        $reflClass = new ReflectionClass((new Configuration())->getClassNameInflector()->getUserClassName($model::class));
         $mappedProperties = $this->annotationReader->getSalesforceFields($model);
         $mappedRelations = $this->annotationReader->getSalesforceRelations($model);
         $allMappings = $mappedProperties->toArray() + $mappedRelations;
