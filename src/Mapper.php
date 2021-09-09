@@ -342,16 +342,14 @@ class Mapper
      */
     public function mapToDomainObject($sObject, $modelClass)
     {
-        // todo: this prevents of updating an object
-        // Try to find mapped model in unit of work
-//        if ($this->unitOfWork->find($modelClass, $sObject->Id)) {
-//            return $this->unitOfWork->find($modelClass, $sObject->Id);
-//        }
+        if ($this->unitOfWork->find($modelClass, $sObject->Id)) {
+            $model = $this->unitOfWork->find($modelClass, $sObject->Id);
+        }
+        else {
+            $model = (new ReflectionClass($modelClass))->newInstanceWithoutConstructor();
+        }
 
-        $model = (new ReflectionClass($modelClass))->newInstanceWithoutConstructor();
         $reflObject = new ReflectionObject($model);
-
-        // Set Salesforce property values on domain object
         $fields = $this->annotationReader->getSalesforceFields($modelClass);
         foreach ($fields as $name => $field) {
             if (isset($sObject->{$field->name}) && $reflObject->hasProperty($name)) {
