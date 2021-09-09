@@ -18,6 +18,7 @@
     "php": ">=8.0",
     "doctrine/cache": "^1.11",
     "doctrine/common": "^3.1.0",
+    "friendsofphp/proxy-manager-lts": "^1.0",
     "php-arsenal/salesforce-bundle": "^4.0",
     "sensio/framework-extra-bundle": "^6.1.0",
     "symfony/dependency-injection": "^5.2",

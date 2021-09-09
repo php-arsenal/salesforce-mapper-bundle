@@ -14,6 +14,7 @@ use PhpArsenal\SalesforceMapperBundle\Query\Builder;
 use PhpArsenal\SalesforceMapperBundle\Response\MappedRecordIterator;
 use PhpArsenal\SoapClient\ClientInterface;
 use PhpArsenal\SoapClient\Result;
+use ProxyManager\Configuration;
 use ReflectionClass;
 use ReflectionObject;
 use stdClass;
@@ -404,7 +405,7 @@ class Mapper
 
         /** @var Result\DescribeSObjectResult $objectDescription */
         $objectDescription = $this->getObjectDescription($model);
-        $reflClass = new ReflectionClass($model);
+        $reflClass = new ReflectionClass((new Configuration())->getClassNameInflector()->getUserClassName($model));
         $mappedProperties = $this->annotationReader->getSalesforceFields($model);
         $mappedRelations = $this->annotationReader->getSalesforceRelations($model);
         $allMappings = $mappedProperties->toArray() + $mappedRelations;
