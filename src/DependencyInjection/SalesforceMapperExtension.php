@@ -39,10 +39,6 @@ class SalesforceMapperExtension extends Extension
 
         $yamlLoader->load('param_converter.yml');
         $container->setParameter('salesforce_mapper.param_converter', $config['param_converter']);
-
-        /** @var SalesforceDocumentClassTreeBuilder $sfDocumentClassTreeBuilder */
-        $sfDocumentClassTreeBuilder = $container->get(SalesforceDocumentClassTreeBuilder::class);
-        $container->setParameter('salesforce_mapper.document_classes', $sfDocumentClassTreeBuilder->build());
     }
 }
 

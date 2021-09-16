@@ -10,4 +10,5 @@ use Doctrine\Common\Annotations\Annotation;
 class SObject extends Annotation
 {
     public $name;
+    public $discriminatorField;
 }
