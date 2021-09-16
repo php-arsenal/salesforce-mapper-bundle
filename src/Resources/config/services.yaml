@@ -34,4 +34,5 @@ services:
     PhpArsenal\SalesforceMapperBundle\Builder\SalesforceDocumentClassTreeBuilder:
         public: true # todo: figure out this bug
         arguments:
-            $documentClasses: '%doctrine_mongodb.mongodb.odm.document_classes%'
+            - '@annotation_reader'
+            - '%doctrine_mongodb.mongodb.odm.document_classes%'
