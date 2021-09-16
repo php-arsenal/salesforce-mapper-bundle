@@ -16,6 +16,7 @@ services:
             - '@salesforce.soap_client'
             - '@PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader'
             - '@PhpArsenal\SalesforceMapperBundle\Cache\FileCache'
+            - '%salesforce_mapper.document_classes%'
 
     PhpArsenal\SalesforceMapperBundle\Cache\FileCache:
         arguments:
