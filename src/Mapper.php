@@ -5,6 +5,7 @@ namespace PhpArsenal\SalesforceMapperBundle;
 use DateTime;
 use DateTimeZone;
 use Doctrine\Common\Cache\Cache;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\DiscriminatorMap;
 use InvalidArgumentException;
 use PhpArsenal\SalesforceMapperBundle\Annotation;
 use PhpArsenal\SalesforceMapperBundle\Annotation as Salesforce;
@@ -75,7 +76,12 @@ class Mapper
      * @param AnnotationReader $annotationReader
      * @param Cache $cache
      */
-    public function __construct(ClientInterface $client, AnnotationReader $annotationReader, Cache $cache)
+    public function __construct(
+        ClientInterface $client,
+        AnnotationReader $annotationReader,
+        Cache $cache,
+        private array $salesforceDocumentClasses
+    )
     {
         $this->client = $client;
         $this->annotationReader = $annotationReader;
@@ -343,11 +349,19 @@ class Mapper
      */
     public function mapToDomainObject($sObject, $modelClass)
     {
+        $reflClass = new ReflectionClass($modelClass);
+        if($reflClass->isAbstract()) {
+            $discriminatorMap = $this->annotationReader->reader->getClassAnnotation($reflClass, DiscriminatorMap::class);
+            $discriminatorField = $this->annotationReader->getSalesforceObject($modelClass)->discriminatorField;
+            $modelClass = $discriminatorMap->value[$sObject->{$discriminatorField}];
+            $reflClass = new ReflectionClass($modelClass);
+        }
+
         if ($this->unitOfWork->find($modelClass, $sObject->Id)) {
             $model = $this->unitOfWork->find($modelClass, $sObject->Id);
         }
         else {
-            $model = (new ReflectionClass($modelClass))->newInstanceWithoutConstructor();
+            $model = $reflClass->newInstanceWithoutConstructor();
         }
 
         $reflObject = new ReflectionObject($model);
@@ -444,7 +458,9 @@ class Mapper
                 if($reflClass->hasProperty($property)) {
                     $reflProperty = $reflClass->getProperty($property);
                     $reflProperty->setAccessible(true);
-                    $value = $reflProperty->getValue($model);
+                    if($reflProperty->isInitialized($model)) {
+                        $value = $reflProperty->getValue($model);
+                    }
                 }
                 else {
                     // Get from method
@@ -629,7 +645,7 @@ class Mapper
      */
     private function getQuotedWhereValue(
         Annotation\Field $field,
-        $value,
+                         $value,
         Result\DescribeSObjectResult $description
     ) {
         $fieldDescription = $description->getField($field->name);
@@ -700,45 +716,57 @@ class Mapper
      */
     public function getFields($modelClass, $includeRelatedLevels, $ignoreObject = null)
     {
-        $fields = array();
+        $modelClasses = [$modelClass];
 
-        foreach ($this->annotationReader->getSalesforceFields($modelClass) as $field) {
-            $fields[] = $field->name;
-        }
-
-        $description = $this->getObjectDescription($modelClass);
-
-        if ($includeRelatedLevels > 0) {
-            foreach ($this->annotationReader->getSalesforceRelations($modelClass) as $relation) {
-
-                // Only process one-to-one and many-to-one relations here;
-                // one-to-many relations must be looked up as subquery.
-                if (!$relation->field) {
-                    continue;
-                }
-
-                // Check whether we can find this relation
-                $relationshipField = $description->getRelationshipField($relation->field);
-                if (!$relationshipField) {
-                    throw new InvalidArgumentException(
-                        'Field ' . $relation->field . ' does not exist on ' . $description->getName());
-                    continue;
-                }
-
-                // If the referenced object should be ignored, don't fetch its
-                // fields
-                if ($ignoreObject && $relationshipField->references($ignoreObject)) {
-                    continue;
-                }
-
-                $relatedFields = $this->getFields($relation->class, --$includeRelatedLevels);
-                foreach ($relatedFields as $relatedField) {
-                    $fields[] = sprintf('%s.%s', $relationshipField->getRelationshipName(), $relatedField);
+        if((new ReflectionClass($modelClass))->isAbstract()) {
+            foreach ($this->salesforceDocumentClasses as $salesforceDocumentClass) {
+                if (is_subclass_of($salesforceDocumentClass, $modelClass)) {
+                    $modelClasses[] = $salesforceDocumentClass;
                 }
             }
         }
 
-        return $fields;
+        unset($modelClass);
+        $fields = array();
+
+        foreach($modelClasses as $modelClass) {
+            foreach ($this->annotationReader->getSalesforceFields($modelClass) as $field) {
+                $fields[] = $field->name;
+            }
+
+            $description = $this->getObjectDescription($modelClass);
+
+            if ($includeRelatedLevels > 0) {
+                foreach ($this->annotationReader->getSalesforceRelations($modelClass) as $relation) {
+                    // Only process one-to-one and many-to-one relations here;
+                    // one-to-many relations must be looked up as subquery.
+                    if (!$relation->field) {
+                        continue;
+                    }
+
+                    // Check whether we can find this relation
+                    $relationshipField = $description->getRelationshipField($relation->field);
+                    if (!$relationshipField) {
+                        throw new InvalidArgumentException(
+                            'Field ' . $relation->field . ' does not exist on ' . $description->getName());
+                        continue;
+                    }
+
+                    // If the referenced object should be ignored, don't fetch its
+                    // fields
+                    if ($ignoreObject && $relationshipField->references($ignoreObject)) {
+                        continue;
+                    }
+
+                    $relatedFields = $this->getFields($relation->class, --$includeRelatedLevels);
+                    foreach ($relatedFields as $relatedField) {
+                        $fields[] = sprintf('%s.%s', $relationshipField->getRelationshipName(), $relatedField);
+                    }
+                }
+            }
+        }
+
+        return array_unique($fields);
     }
 
     /**
