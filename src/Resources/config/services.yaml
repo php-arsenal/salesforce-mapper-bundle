@@ -1,11 +1,8 @@
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        public: false       # Allows optimizing the container by removing unused services; this also means
-        # fetching services directly from the container via $container->get() won't work.
-        # The best practice is to be explicit about your dependencies anyway.
+        autowire: true
+        autoconfigure: true
+        public: false
 
     PhpArsenal\SalesforceMapperBundle\:
         resource: '../../*'
@@ -22,9 +19,7 @@ services:
         arguments:
             - '%kernel.cache_dir%/salesforce'
 
-    PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader:
-        arguments:
-            - '@annotation_reader'
+    PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader: ~
 
     PhpArsenal\SalesforceMapperBundle\MappedBulkSaver:
         arguments:
@@ -33,7 +28,7 @@ services:
             - '@PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader'
 
     PhpArsenal\SalesforceMapperBundle\Builder\SalesforceDocumentClassTreeBuilder:
-        public: true # todo: figure out this bug
+        public: true
         arguments:
             - '@PhpArsenal\SalesforceMapperBundle\Annotation\AnnotationReader'
             - '%doctrine_mongodb.mongodb.odm.document_classes%'

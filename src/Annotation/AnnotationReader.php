@@ -2,138 +2,85 @@
 
 namespace PhpArsenal\SalesforceMapperBundle\Annotation;
 
-use Doctrine\Common\Annotations\Annotation;
-use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Collections\ArrayCollection;
 use ReflectionClass;
 
 /**
- * Reads Salesforce annotations
- *
- * This class encapsulates the Doctrine annotation reader.
+ * reads salesforce attributes using php 8 native reflection
  */
 class AnnotationReader
 {
-    public function __construct(Reader $reader)
-    {
-        $this->reader = $reader;
-    }
-
-    /**
-     * Get Salesforce fields from model
-     *
-     * @param string $model Model class name
-     * @return Field[]      Array of field annotations
-     */
-    public function getSalesforceFields($modelClass)
+    public function getSalesforceFields($modelClass): ArrayCollection
     {
         $properties = $this->getSalesforceProperties($modelClass);
         return new ArrayCollection($properties['fields']);
     }
 
-    /**
-     * Get Salesforce field
-     *
-     * @param mixed $model Domain model object
-     * @param string $field Field name
-     * @return Field
-     */
-    public function getSalesforceField($model, $field)
+    public function getSalesforceField($model, $field): ?Field
     {
         $properties = $this->getSalesforceProperties($model);
-        if (isset($properties['fields'][$field])) {
-            return $properties['fields'][$field];
-        }
+        return $properties['fields'][$field] ?? null;
     }
 
-    public function getSalesforceRelations($model)
+    public function getSalesforceRelations($model): array
     {
         $properties = $this->getSalesforceProperties($model);
         return $properties['relations'];
     }
 
-    /**
-     * Get Salesforce object annotation
-     *
-     * @param string $model
-     * @return SObject
-     */
-    public function getSalesforceObject($model)
+    public function getSalesforceObject($model): ?SObject
     {
         $properties = $this->getSalesforceProperties($model);
         return $properties['object'];
     }
 
-    /**
-     * Get Salesforce properties
-     *
-     * @param string $modelClass Model class name
-     * @return array                With keys 'object', 'relations' and 'fields'
-     */
-    public function getSalesforceProperties($modelClass)
+    public function getSalesforceProperties($modelClass): array
     {
         $reflClass = new ReflectionClass($modelClass);
         return $this->getSalesforcePropertiesFromReflectionClass($reflClass);
     }
 
-    protected function getSalesforcePropertiesFromReflectionClass(ReflectionClass $reflClass)
+    protected function getSalesforcePropertiesFromReflectionClass(ReflectionClass $reflClass): array
     {
-        $salesforceProperties = array(
+        $salesforceProperties = [
             'object' => null,
-            'relations' => array(),
-            'fields' => array()
-        );
+            'relations' => [],
+            'fields' => [],
+        ];
 
-        $classAnnotation = $this->reader->getClassAnnotation($reflClass,
-            'PhpArsenal\SalesforceMapperBundle\Annotation\SObject'
-        );
-        if (isset($classAnnotation->name)) {
-            $salesforceProperties['object'] = $classAnnotation;
+        $classAttributes = $reflClass->getAttributes(SObject::class);
+        if (!empty($classAttributes)) {
+            $salesforceProperties['object'] = $classAttributes[0]->newInstance();
         }
 
         foreach ($reflClass->getProperties() as $reflProperty) {
-            $annotations = $this->reader->getPropertyAnnotations($reflProperty);
+            $fieldAttributes = $reflProperty->getAttributes(Field::class);
+            foreach ($fieldAttributes as $attr) {
+                $salesforceProperties['fields'][$reflProperty->getName()] = $attr->newInstance();
+            }
 
-            foreach ($annotations as $propertyAnnotation) {
-                if ($propertyAnnotation instanceof Relation) {
-                    $salesforceProperties['relations'][$reflProperty->getName()] =
-                        $propertyAnnotation;
-
-                } elseif ($propertyAnnotation instanceof Field) {
-                    $salesforceProperties['fields'][$reflProperty->getName()] =
-                        $propertyAnnotation;
-                }
+            $relationAttributes = $reflProperty->getAttributes(Relation::class);
+            foreach ($relationAttributes as $attr) {
+                $salesforceProperties['relations'][$reflProperty->getName()] = $attr->newInstance();
             }
         }
 
-        foreach ($reflClass->getMethods() as $reflectionMethod) {
-            $annotations = $this->reader->getMethodAnnotations($reflectionMethod);
-
-            foreach ($annotations as $annotation) {
-                if ($annotation instanceof Field) {
-                    $salesforceProperties['fields'][$annotation->name] = $annotation;
+        foreach ($reflClass->getMethods() as $reflMethod) {
+            $methodAttributes = $reflMethod->getAttributes(Field::class);
+            foreach ($methodAttributes as $attr) {
+                $field = $attr->newInstance();
+                if ($field->name) {
+                    $salesforceProperties['fields'][$field->name] = $field;
                 }
             }
         }
 
         if ($reflClass->getParentClass()) {
-            $properties = $this->getSalesforcePropertiesFromReflectionClass(
-                $reflClass->getParentClass()
-            );
+            $parentProperties = $this->getSalesforcePropertiesFromReflectionClass($reflClass->getParentClass());
 
-            $salesforceProperties['object'] = ($salesforceProperties['object'])
-                ? $salesforceProperties['object']
-                : $properties['object'];
-
-            $salesforceProperties['fields'] = array_merge(
-                $properties['fields'],
-                $salesforceProperties['fields']
-            );
-
-            $salesforceProperties['relations'] = array_merge(
-                $properties['relations'],
-                $salesforceProperties['relations']
-            );
+            $salesforceProperties['object'] = $salesforceProperties['object'] ?? $parentProperties['object'];
+            $salesforceProperties['fields'] = array_merge($parentProperties['fields'], $salesforceProperties['fields']);
+            $salesforceProperties['relations'] = array_merge($parentProperties['relations'], $salesforceProperties['relations']);
         }
 
         return $salesforceProperties;

@@ -2,58 +2,93 @@
 
 namespace PhpArsenal\SalesforceMapperBundle\Cache;
 
-use Doctrine\Common\Cache\Cache;
 use InvalidArgumentException;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
-class FileCache implements Cache
+class FileCache implements CacheItemPoolInterface
 {
-    private $dir;
+    private FilesystemAdapter $cache;
 
-    public function __construct($dir)
+    public function __construct(string $dir)
     {
-        if (!is_dir($dir)) {
-            mkdir($dir);
+        $this->cache = new FilesystemAdapter('salesforce', 0, $dir);
+    }
+
+    public function getItem(string $key): \Psr\Cache\CacheItemInterface
+    {
+        return $this->cache->getItem($this->normalizeKey($key));
+    }
+
+    public function getItems(array $keys = []): iterable
+    {
+        return $this->cache->getItems(array_map([$this, 'normalizeKey'], $keys));
+    }
+
+    public function hasItem(string $key): bool
+    {
+        return $this->cache->hasItem($this->normalizeKey($key));
+    }
+
+    public function clear(): bool
+    {
+        return $this->cache->clear();
+    }
+
+    public function deleteItem(string $key): bool
+    {
+        return $this->cache->deleteItem($this->normalizeKey($key));
+    }
+
+    public function deleteItems(array $keys): bool
+    {
+        return $this->cache->deleteItems(array_map([$this, 'normalizeKey'], $keys));
+    }
+
+    public function save(\Psr\Cache\CacheItemInterface $item): bool
+    {
+        return $this->cache->save($item);
+    }
+
+    public function saveDeferred(\Psr\Cache\CacheItemInterface $item): bool
+    {
+        return $this->cache->saveDeferred($item);
+    }
+
+    public function commit(): bool
+    {
+        return $this->cache->commit();
+    }
+
+    private function normalizeKey(string $key): string
+    {
+        return preg_replace('/[^a-zA-Z0-9_.]/', '_', $key);
+    }
+
+    // legacy methods for backward compat
+    public function fetch(string $id): mixed
+    {
+        $item = $this->getItem($id);
+        return $item->isHit() ? $item->get() : null;
+    }
+
+    public function contains(string $id): bool
+    {
+        return $this->hasItem($id);
+    }
+
+    public function store(string $id, mixed $data, int $lifeTime = 0): bool
+    {
+        $item = $this->getItem($id);
+        $item->set($data);
+        if ($lifeTime > 0) {
+            $item->expiresAfter($lifeTime);
         }
-
-        if (!is_writable($dir)) {
-            throw new InvalidArgumentException(sprintf('The directory "%s" is not writable.', $dir));
-        }
-
-        $this->dir = rtrim($dir, '\\/');
-
+        return $this->save($item);
     }
 
-    public function fetch($id)
+    public function remove(string $id): bool
     {
-        if ($this->contains($id)) {
-            return unserialize(file_get_contents($this->getFilenameFromId($id)));
-        }
-    }
-
-    public function contains($id)
-    {
-        return is_readable($this->getFilenameFromId($id));
-    }
-
-    public function save($id, $data, $lifeTime = 0)
-    {
-        file_put_contents($this->getFilenameFromId($id), serialize($data));
-    }
-
-    public function delete($id)
-    {
-        if ($this->contains($id)) {
-            unlink($this->getFilenameFromId($id));
-        }
-    }
-
-    public function getStats()
-    {
-
-    }
-
-    private function getFilenameFromId($id)
-    {
-        return $this->dir . '/' . md5($id);
+        return $this->deleteItem($id);
     }
 }

@@ -4,7 +4,7 @@ namespace PhpArsenal\SalesforceMapperBundle;
 
 use DateTime;
 use DateTimeZone;
-use Doctrine\Common\Cache\Cache;
+use Psr\Cache\CacheItemPoolInterface;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\DiscriminatorMap;
 use InvalidArgumentException;
 use PhpArsenal\SalesforceMapperBundle\Annotation;
@@ -51,12 +51,7 @@ class Mapper
      */
     private $annotationReader;
 
-    /**
-     * Cache
-     *
-     * @var Cache
-     */
-    private $cache;
+    private CacheItemPoolInterface $cache;
 
     /**
      * Symfony event dispatcher
@@ -79,7 +74,7 @@ class Mapper
     public function __construct(
         ClientInterface $client,
         AnnotationReader $annotationReader,
-        Cache $cache,
+        CacheItemPoolInterface $cache,
         private array $salesforceDocumentClasses
     )
     {
@@ -524,20 +519,22 @@ class Mapper
      */
     private function doGetObjectDescription($objectName)
     {
-        $cacheId = sprintf('salesforce_mapper.object_description.%s',
-            $objectName);
-        if ($this->cache->contains($cacheId)) {
-            return $this->cache->fetch($cacheId);
+        $cacheKey = preg_replace('/[^a-zA-Z0-9_.]/', '_', 'salesforce_mapper.object_description.' . $objectName);
+        $cacheItem = $this->cache->getItem($cacheKey);
+
+        if ($cacheItem->isHit()) {
+            return $cacheItem->get();
         }
 
-        $descriptions = $this->client->describeSObjects(array($objectName));
+        $descriptions = $this->client->describeSObjects([$objectName]);
         if (count($descriptions) === 0) {
             throw new InvalidArgumentException('Salesforce object does not exist');
         }
 
-        $description = /* @var $description DescribeSObjectResult */
-            $descriptions[0];
-        $this->cache->save($cacheId, $description);
+        $description = $descriptions[0];
+        $cacheItem->set($description);
+        $this->cache->save($cacheItem);
+
         return $description;
     }
 

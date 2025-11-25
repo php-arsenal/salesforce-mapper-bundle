@@ -2,12 +2,12 @@
 
 namespace PhpArsenal\SalesforceMapperBundle\Annotation;
 
-use Doctrine\Common\Annotations\Annotation;
+use Attribute;
 
-/**
- * @Annotation
- */
-class Field extends Annotation
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD)]
+class Field
 {
-    public $name;
+    public function __construct(
+        public ?string $name = null,
+    ) {}
 }

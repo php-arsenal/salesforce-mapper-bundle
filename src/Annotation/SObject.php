@@ -2,13 +2,13 @@
 
 namespace PhpArsenal\SalesforceMapperBundle\Annotation;
 
-use Doctrine\Common\Annotations\Annotation;
+use Attribute;
 
-/**
- * @Annotation
- */
-class SObject extends Annotation
+#[Attribute(Attribute::TARGET_CLASS)]
+class SObject
 {
-    public $name;
-    public $discriminatorField;
+    public function __construct(
+        public ?string $name = null,
+        public ?string $discriminatorField = null,
+    ) {}
 }

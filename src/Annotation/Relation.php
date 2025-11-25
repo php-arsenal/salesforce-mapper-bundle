@@ -2,17 +2,15 @@
 
 namespace PhpArsenal\SalesforceMapperBundle\Annotation;
 
-use Doctrine\Common\Annotations\Annotation;
+use Attribute;
 
-/**
- * Defines a relation between Salesforce objects
- *
- * @Annotation
- */
-class Relation extends Annotation
+#[Attribute(Attribute::TARGET_PROPERTY)]
+class Relation
 {
-    public $field;
-    public $class;
-    public $name;
-    public $optional;
+    public function __construct(
+        public ?string $field = null,
+        public ?string $class = null,
+        public ?string $name = null,
+        public ?bool $optional = null,
+    ) {}
 }
