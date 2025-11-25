@@ -3,69 +3,45 @@
 namespace PhpArsenal\SalesforceMapperBundle\Request\ParamConverter;
 
 use PhpArsenal\SalesforceMapperBundle\Mapper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use function array_search;
 
 /**
- * This param converter converts a Salesforce id into a Salesforce object, using
- * the Salesforce mapper for lookup.
+ * resolves salesforce id route parameters into salesforce objects using the mapper
  */
-class SalesforceParamConverter implements ParamConverterInterface
+class SalesforceParamConverter implements ValueResolverInterface
 {
-    /**
-     * @var Mapper
-     */
-    protected $mapper;
+    protected Mapper $mapper;
 
-    /**
-     * @var array
-     *
-     * Property name => Salesforce model name
-     */
-    protected $mappings;
+    /** @var array<string, string> property name => salesforce model class */
+    protected array $mappings;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(Mapper $mapper, array $mappings)
     {
         $this->mapper = $mapper;
         $this->mappings = $mappings;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        // @todo Is it smart to do this based on variable name? Perhaps it's
-        // better to, here also, look at class name?
-        $class = $configuration->getClass();
-
-        // If request has property set that corresponds to the Salesforce model,
-        // go ahead and do the param conversion.
-        $propertyName = array_search($class, $this->mappings);
-        if ($request->attributes->has($propertyName)) {
-            $id = $request->attributes->get($propertyName);
-            $model = $this->mapper->find($class, $id);
-            if (!$model) {
-                throw new NotFoundHttpException('Model with id ' . $id . ' not found');
-            }
-
-            $request->attributes->set($configuration->getName(), $model);
+        $class = $argument->getType();
+        if (!$class || !in_array($class, $this->mappings, true)) {
+            return [];
         }
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(ParamConverter $configuration)
-    {
-        return in_array($configuration->getClass(), $this->mappings);
+        $propertyName = array_search($class, $this->mappings, true);
+        if (!$propertyName || !$request->attributes->has($propertyName)) {
+            return [];
+        }
+
+        $id = $request->attributes->get($propertyName);
+        $model = $this->mapper->find($class, $id);
+        if (!$model) {
+            throw new NotFoundHttpException('Model with id ' . $id . ' not found');
+        }
+
+        return [$model];
     }
 }
-
