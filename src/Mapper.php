@@ -15,7 +15,6 @@ use PhpArsenal\SalesforceMapperBundle\Query\Builder;
 use PhpArsenal\SalesforceMapperBundle\Response\MappedRecordIterator;
 use PhpArsenal\SoapClient\ClientInterface;
 use PhpArsenal\SoapClient\Result;
-use ProxyManager\Configuration;
 use ReflectionClass;
 use ReflectionObject;
 use stdClass;
@@ -414,7 +413,7 @@ class Mapper
 
         /** @var Result\DescribeSObjectResult $objectDescription */
         $objectDescription = $this->getObjectDescription($model);
-        $reflClass = new ReflectionClass((new Configuration())->getClassNameInflector()->getUserClassName($model::class));
+        $reflClass = new ReflectionClass($this->getRealClassName($model::class));
         $mappedProperties = $this->annotationReader->getSalesforceFields($model);
         $mappedRelations = $this->annotationReader->getSalesforceRelations($model);
         $allMappings = $mappedProperties->toArray() + $mappedRelations;
@@ -825,5 +824,18 @@ class Mapper
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * get the real class name from a proxy class (strips __CG__ proxy wrapper)
+     */
+    private function getRealClassName(string $className): string
+    {
+        // doctrine proxy pattern: Proxies\__CG__\Actual\Class\Name
+        if (str_contains($className, '\\__CG__\\')) {
+            return substr($className, strpos($className, '\\__CG__\\') + 8);
+        }
+
+        return $className;
     }
 }
