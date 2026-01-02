@@ -172,7 +172,7 @@ class CampaignMember extends AbstractModel
      *
      * @return $this
      */
-    public function setLead(Lead $lead = null)
+    public function setLead(?Lead $lead = null)
     {
         $this->lead = $lead;
 

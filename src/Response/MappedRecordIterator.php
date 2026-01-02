@@ -3,6 +3,7 @@
 namespace PhpArsenal\SalesforceMapperBundle\Response;
 
 use Countable;
+use Iterator;
 use PhpArsenal\SalesforceMapperBundle\Mapper;
 use OuterIterator;
 use PhpArsenal\SoapClient\Result\RecordIterator;
@@ -50,10 +51,8 @@ class MappedRecordIterator implements OuterIterator, Countable
 
     /**
      * {@inheritdoc}
-     *
-     * @return RecordIterator
      */
-    public function getInnerIterator()
+    public function getInnerIterator(): ?Iterator
     {
         return $this->recordIterator;
     }
@@ -63,9 +62,8 @@ class MappedRecordIterator implements OuterIterator, Countable
      *
      * @return mixed The domain model object containing the values from the
      *               Salesforce record
-     *
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->get($this->key());
     }
@@ -73,7 +71,7 @@ class MappedRecordIterator implements OuterIterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function next()
+    public function next(): void
     {
         $this->recordIterator->next();
     }
@@ -81,7 +79,7 @@ class MappedRecordIterator implements OuterIterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->recordIterator->key();
     }
@@ -89,7 +87,7 @@ class MappedRecordIterator implements OuterIterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->recordIterator->valid();
     }
@@ -97,7 +95,7 @@ class MappedRecordIterator implements OuterIterator, Countable
     /**
      * {@inheritdoc}
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->recordIterator->rewind();
     }
@@ -114,10 +112,8 @@ class MappedRecordIterator implements OuterIterator, Countable
 
     /**
      * Get total number of records returned by Salesforce
-     *
-     * @return int
      */
-    public function count()
+    public function count(): int
     {
         return $this->recordIterator->count();
     }
@@ -126,11 +122,12 @@ class MappedRecordIterator implements OuterIterator, Countable
      * Get object at key
      *
      * @param int $key
-     * @return object | null
+     * @return object|null
      */
     public function get($key)
     {
-        $sObject = $this->recordIterator->seek($key);
+        $this->recordIterator->seek($key);
+        $sObject = $this->recordIterator->current();
         if (!$sObject) {
             return null;
         }
