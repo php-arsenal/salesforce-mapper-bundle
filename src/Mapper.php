@@ -345,7 +345,8 @@ class Mapper
     {
         $reflClass = new ReflectionClass($modelClass);
         if($reflClass->isAbstract()) {
-            $discriminatorMap = $this->annotationReader->reader->getClassAnnotation($reflClass, DiscriminatorMap::class);
+            $discriminatorMapAttrs = $reflClass->getAttributes(DiscriminatorMap::class);
+            $discriminatorMap = !empty($discriminatorMapAttrs) ? $discriminatorMapAttrs[0]->newInstance() : null;
             $discriminatorField = $this->annotationReader->getSalesforceObject($modelClass)->discriminatorField;
             $modelClass = $discriminatorMap->value[$sObject->{$discriminatorField}];
             $reflClass = new ReflectionClass($modelClass);
@@ -459,12 +460,13 @@ class Mapper
                 else {
                     // Get from method
                     foreach($reflClass->getMethods() as $reflectionMethod) {
-                        /** @var Annotation\Field|null $methodFieldAnnotation */
-                        $methodFieldAnnotation = $this->annotationReader->reader->getMethodAnnotation($reflectionMethod, Annotation\Field::class);
-
-                        if($methodFieldAnnotation && $methodFieldAnnotation->name === $fieldDescription->getName()) {
-                            $value = $reflectionMethod->invoke($model);
-                            break;
+                        $methodAttributes = $reflectionMethod->getAttributes(Annotation\Field::class);
+                        if (!empty($methodAttributes)) {
+                            $methodFieldAnnotation = $methodAttributes[0]->newInstance();
+                            if ($methodFieldAnnotation->name === $fieldDescription->getName()) {
+                                $value = $reflectionMethod->invoke($model);
+                                break;
+                            }
                         }
                     }
                 }
