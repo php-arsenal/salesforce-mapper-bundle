@@ -18,12 +18,48 @@ class SalesforceDocumentClassTreeBuilder
 
         foreach ($this->documentClasses as $documentClass) {
             if ($this->annotationReader->getSalesforceObject($documentClass)) {
-                    $salesforceDocumentClasses[] = $documentClass;
+                $salesforceDocumentClasses[] = $documentClass;
             }
         }
 
-        asort($salesforceDocumentClasses);
+        return $this->sortByDependencies($salesforceDocumentClasses);
+    }
 
-        return array_values($salesforceDocumentClasses);
+    /**
+     * topological sort: dependencies come before dependents
+     */
+    private function sortByDependencies(array $classes): array
+    {
+        $dependencies = [];
+        foreach ($classes as $class) {
+            $dependencies[$class] = [];
+            foreach ($this->annotationReader->getSalesforceRelations($class) as $relation) {
+                if (in_array($relation->class, $classes, true)) {
+                    $dependencies[$class][] = $relation->class;
+                }
+            }
+        }
+
+        $sorted = [];
+        $visited = [];
+
+        $visit = function (string $class) use (&$visit, &$sorted, &$visited, $dependencies): void {
+            if (isset($visited[$class])) {
+                return;
+            }
+            $visited[$class] = true;
+
+            foreach ($dependencies[$class] as $dep) {
+                $visit($dep);
+            }
+
+            $sorted[] = $class;
+        };
+
+        foreach ($classes as $class) {
+            $visit($class);
+        }
+
+        return $sorted;
     }
 }
